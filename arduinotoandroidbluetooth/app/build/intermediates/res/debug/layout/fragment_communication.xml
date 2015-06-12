@@ -1,0 +1,403 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingBottom="25dp"
+        android:paddingTop="25dp" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp" >
+
+            <TextView
+                android:id="@+id/TextView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvVoltageBattery"
+                android:layout_alignBottom="@+id/tvVoltageBattery"
+                android:layout_toRightOf="@+id/tvVoltageBattery"
+                android:text="@string/Volts"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/TextView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tensao Bat"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/tvVoltageBattery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/TextView18"
+                android:text="@string/Unknown"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="50sp"
+                android:typeface="monospace" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp" >
+
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvCurrentBatteryOut"
+                android:layout_alignBottom="@+id/tvCurrentBatteryOut"
+                android:layout_toRightOf="@+id/tvCurrentBatteryOut"
+                android:text="@string/Amps"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/TextView03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Corrente Bateria"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/tvCurrentBatteryOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/TextView03"
+                android:text="@string/Unknown"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="50sp"
+                android:typeface="monospace" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp" >
+
+            <TextView
+                android:id="@+id/TextView05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvCurrentBatteryIn"
+                android:layout_alignBottom="@+id/tvCurrentBatteryIn"
+                android:layout_toRightOf="@+id/tvCurrentBatteryIn"
+                android:text="@string/Amps"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/TextView06"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Corrente saida"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/tvCurrentBatteryIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/TextView06"
+                android:text="@string/Unknown"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="50sp"
+                android:typeface="monospace" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingBottom="25dp"
+        android:paddingTop="25dp"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp" >
+
+            <TextView
+                android:id="@+id/TextView08"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvTemperatureBattery"
+                android:layout_alignBottom="@+id/tvTemperatureBattery"
+                android:layout_toRightOf="@+id/tvTemperatureBattery"
+                android:text="@string/Celsius"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/TextView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temp Bat"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/tvTemperatureBattery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/TextView12"
+                android:text="@string/Unknown"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="50sp"
+                android:typeface="monospace" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp" >
+
+            <TextView
+                android:id="@+id/TextView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvTemperatureMotor"
+                android:layout_alignBottom="@+id/tvTemperatureMotor"
+                android:layout_toRightOf="@+id/tvTemperatureMotor"
+                android:text="@string/Celsius"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/TextView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temp Motor"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/tvTemperatureMotor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/TextView10"
+                android:text="@string/Unknown"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="50sp"
+                android:typeface="monospace"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp" >
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvPotIn"
+                android:layout_alignBottom="@+id/tvPotIn"
+                android:layout_toRightOf="@+id/tvPotIn"
+                android:text="Watts"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pot Painéis"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/tvPotIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView2"
+                android:text="@string/Unknown"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="50sp"
+                android:typeface="monospace" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvPotSaida"
+                android:layout_alignBottom="@+id/tvPotSaida"
+                android:layout_toRightOf="@+id/tvPotSaida"
+                android:text="Watts"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pot Motor"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/tvPotSaida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView4"
+                android:text="@string/Unknown"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="50sp"
+                android:typeface="monospace" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:padding="50dp" >
+
+        <TextView
+            android:id="@+id/TextView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvVelocity"
+            android:layout_alignBottom="@+id/tvVelocity"
+            android:layout_toRightOf="@+id/tvVelocity"
+            android:text="@string/Vel"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/TextView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Velocity"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/tvVelocity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TextView17"
+            android:text="@string/Unknown"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="100sp"
+            android:typeface="monospace" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:padding="50dp" >
+
+        <TextView
+            android:id="@+id/TextView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvAutonomy"
+            android:layout_alignBottom="@+id/tvAutonomy"
+            android:layout_toRightOf="@+id/tvAutonomy"
+            android:text="@string/Time"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/TextView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Autonomy"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/tvAutonomy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TextView21"
+            android:text="@string/Unknown"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="100sp"
+            android:typeface="monospace" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="50dp"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_below="@+id/LinearLayout01"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvdPot"
+            android:layout_alignBottom="@+id/tvdPot"
+            android:layout_toRightOf="@+id/tvdPot"
+            android:text="Watts"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diferença Potencia"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/tvdPot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="false"
+            android:layout_below="@+id/textView6"
+            android:text="@string/Unknown"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="50sp"
+            android:typeface="monospace"
+            android:layout_alignParentTop="false"
+            android:layout_alignWithParentIfMissing="false"
+            android:layout_alignParentRight="false" />
+    </RelativeLayout>
+
+</RelativeLayout><!-- From: file:/home/marcio/Desktop/IFSC/BARCO/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/layout/fragment_communication.xml -->

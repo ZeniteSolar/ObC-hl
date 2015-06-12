@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Zênite Solar</string>
+    <string name="title_section1">Comunicação</string>
+    <string name="title_section2">Configuração Bluetooth</string>
+    <string name="title_section3"> </string>
+    <string name="navigation_drawer_open">Abrir menu</string>
+    <string name="navigation_drawer_close">Fechar menu</string>
+    <string name="action_example">Bluetooth Configs</string>
+    <string name="action_settings">Configurações</string>
+    
+    <!--  fragment_bluetooth -->
+    <string name="Bluetooth">Bluetooth: </string>
+	<string name="On">On</string>
+	<string name="Off">Off</string>
+	<string name="Visible">Get Visible</string>
+	<string name="List">List Devices</string>
+	<string name="BluetoothTurnedOn">Bluetooth turned on</string>
+	<string name="BluetoothTurnedOff">Bluetooth turned off</string>
+	<string name="BluetoothDeviceDoenstSupport">WARNING: THIS DEVICE DOES NOT SUPPORT BLUETOOTH! :(</string>
+	<string name="BluetoothDeviceSupports">OK, this device supports bluetooth! :)</string>
+	<string name="BluetoothShowingPairedDevices">Showing paired devices</string>
+	<string name="BluetoothStatusOff">Cannot list paired devices because Bluetooth is set OFF, please set Bluetooth ON.</string>
+	<string name="BluetoothNoPairedDevices">There is no paired devices to be shown.</string>
+	<string name="ShowPairedList">Show devices available to connect</string>
+	<string name="HidePairedList">Hide devices available to connect</string>
+	
+	<!--  fragment_communication -->
+	<string name="Temp:Motor">Motor Temp.:</string>
+	<string name="Temp:Bat">Bat. Temp.:</string>
+	<string name="Voltage:Bat">Bat. Volt.:</string>
+	<string name="Current:Bat:IN">Pan. Cur.:</string>
+	<string name="Current:Bat:OUT">Bat. Cur.:</string>
+	<string name="Velocity">Velocidade:</string>
+	<string name="Autonomy">Autonomia:</string>
+	<string name="PowerRate">Taxa da Potência:</string>
+	<string name="SystemStatus">Status do sistema:</string>
+	<string name="Unknown">_</string>
+	<string name="Celsius">[°C]</string>
+	<string name="Volts">[V]</string>
+	<string name="Amps">[A]</string>
+	<string name="Vel">[Km/h]</string>
+	<string name="Time">[min]</string>
+</resources>

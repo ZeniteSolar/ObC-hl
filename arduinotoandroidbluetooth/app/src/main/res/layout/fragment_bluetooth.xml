@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tvBluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Bluetooth" />
+
+        <Switch
+            android:id="@+id/swBluetoothStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="@string/Off"
+            android:textOn="@string/On" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btBluetoothGetVisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Visible" />
+
+    <ToggleButton
+        android:id="@+id/tbShowPairedList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/List"
+        android:textOff="@string/ShowPairedList"
+        android:textOn="@string/HidePairedList" />
+
+    <ListView
+        android:id="@+id/lvBluetoothPairedDevicesList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:dividerHeight="0.1dp" >
+    </ListView>
+
+</LinearLayout>
