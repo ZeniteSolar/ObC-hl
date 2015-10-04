@@ -29,17 +29,14 @@ import java.util.Calendar;
 public class Logger {
 
     /* Checks if the device has free space*/
-    public boolean checkFreeSpace(File dir) {
-        float freeSpace = dir.getFreeSpace();
-        float totalSpace = dir.getTotalSpace();
-        float full = 0.1f;
-        if ((freeSpace / totalSpace) < full)
+    public static boolean checkFreeSpace(File dir) {
+        if ((dir.getFreeSpace() / dir.getTotalSpace()) <= 0.9f)
             return true;
         return false;
     }
 
     /* Checks if external storage is available for read and write */
-    public boolean isExternalStorageWritable() {
+    public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state))
             return true;
@@ -48,31 +45,39 @@ public class Logger {
 
     /* makes a dir named dirName at user's public Documents directory
     (note: it isn't deleted when this app is uninstalled) */
-    public File mkDir(String dirName) {
+    public static File mkDir(String dirName) {
+        // Get the directory for the user's public pictures directory.
         File dir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_NOTIFICATIONS), dirName);
-        if (!dir.mkdirs()) {
-            Log.e("logger", "Directory not created");
+                Environment.DIRECTORY_PICTURES), dirName);
+        if (!dir.exists()){
+            Log.e("Logger", "Directory not exist, attempt to create...");
+            dir.mkdirs();
+            if (!dir.mkdirs()) {
+                Log.e("Logger", "Directory not created; check permissions");
+            }
+        }else{
+            Log.e("Logger", "Directory already exists");
         }
         return dir;
     }
 
     /* save content into a file called fileName */
-    public void saveFile(String dirName, String fileName, String content) {
+    public static boolean saveFile(String dir, String fileName, String content) {
         File file;
         FileOutputStream outputStream;
         try {
-            file = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_NOTIFICATIONS), fileName);
+            file = new File(dir, fileName);
             outputStream = new FileOutputStream(file);
             outputStream.write(content.getBytes());
             outputStream.close();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public int logger() {
+    public static int logger() {
         Calendar rightNow = Calendar.getInstance();
         int day = rightNow.get(Calendar.DAY_OF_MONTH);
         int month = rightNow.get(Calendar.MONTH);
@@ -81,7 +86,8 @@ public class Logger {
         int min = rightNow.get(Calendar.MINUTE);
         int sec = rightNow.get(Calendar.SECOND);
         int msec = rightNow.get(Calendar.MILLISECOND);
-        String dirName = "Testes no lic" + " " + year + month + day;
+        boolean error;
+        String dirName = "Testes no LIC" + " " + year + month + day;
         String fileName = "nomedoarquivo" + ".csv";
         String content =
                 day + "/" + month + "/" + year + "," +
@@ -91,15 +97,28 @@ public class Logger {
                         "leitura 3" +
                         "\n";
 
-        if (!isExternalStorageWritable()) return 1; //verifica se está disponível -> erro 1
+        error = isExternalStorageWritable();
+        if(!error){
+            Log.e("Logger", "Error: Directory isn't writable");
+            return 20;
+        }
+        Log.e("Logger", "Storage is writable");
 
         File dir = mkDir(dirName);
-        checkFreeSpace(dir);
 
-        if (!checkFreeSpace(dir)) return 2; //verifica se tem espaço livre -> erro 2
+        error = checkFreeSpace(dir);
+        if(!error){
+            Log.e("Logger", "Error: There is no free space");
+            return 21;
+        }
+        Log.e("Logger", "There is free space");
 
-        saveFile(dir.toString(), fileName, content);
-
-        return 0; // sucesso -> retorna 0;
+        error = saveFile(dir.toString(), fileName, content);
+        if(!error){
+            Log.e("Logger", "Error: can't save file");
+            return 22;
+        }
+        Log.e("Logger", "File saved at " + dir.toString() + "/" + fileName);
+        return 0;
     }
 }
