@@ -67,7 +67,7 @@ public class Logger {
         FileOutputStream outputStream;
         try {
             file = new File(dir, fileName);
-            outputStream = new FileOutputStream(file);
+            outputStream = new FileOutputStream(file, true);
             outputStream.write(content.getBytes());
             outputStream.close();
             return true;
@@ -90,8 +90,13 @@ public class Logger {
         String dirName = "Testes no LIC" + " " + year + month + day;
         String fileName = "nomedoarquivo" + ".csv";
         String content =
-                day + "/" + month + "/" + year + "," +
-                        hour + ":" + min + ":" + sec + ":" + msec + "," +
+                        String.format("%02d", day) + "/" +
+                        String.format("%02d", month) + "/" +
+                        String.format("%02d", year ) + "," +
+                        String.format("%02d", hour) + ":" +
+                        String.format("%02d", min) + ":" +
+                        String.format("%02d", sec) + ":" +
+                        String.format("%03d", msec) + "," +
                         "leitura 1" + "," +
                         "leitura 2" + "," +
                         "leitura 3" +
