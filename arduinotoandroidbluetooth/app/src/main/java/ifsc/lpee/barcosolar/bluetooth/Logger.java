@@ -29,8 +29,15 @@ import java.util.Calendar;
 public class Logger {
 
     /* Checks if the device has free space*/
+<<<<<<< HEAD
     public static boolean thereIsFreeSpace(File dir) {
         return (dir.getFreeSpace() / dir.getTotalSpace()) <= 0.9f;
+=======
+    public static boolean checkFreeSpace(File dir) {
+        if ((dir.getFreeSpace() / dir.getTotalSpace()) <= 0.9f)
+            return true;
+        return false;
+>>>>>>> dc58aa4523b8e4bf00ab02f4b07a73daefd20635
     }
 
     /* Checks if external storage is available for read and write */
@@ -46,10 +53,17 @@ public class Logger {
     public static File mkDir(String dirName) {
         // Get the directory for the user's public pictures directory.
         File dir = new File(Environment.getExternalStoragePublicDirectory(
+<<<<<<< HEAD
                 Environment.DIRECTORY_DCIM), dirName);
         if (!dir.exists()){
             Log.e("Logger", "Directory not exist, attempt to create...");
 
+=======
+                Environment.DIRECTORY_PICTURES), dirName);
+        if (!dir.exists()){
+            Log.e("Logger", "Directory not exist, attempt to create...");
+            dir.mkdirs();
+>>>>>>> dc58aa4523b8e4bf00ab02f4b07a73daefd20635
             if (!dir.mkdirs()) {
                 Log.e("Logger", "Directory not created; check permissions");
             }
@@ -65,7 +79,11 @@ public class Logger {
         FileOutputStream outputStream;
         try {
             file = new File(dir, fileName);
+<<<<<<< HEAD
             outputStream = new FileOutputStream(file,true);
+=======
+            outputStream = new FileOutputStream(file, true);
+>>>>>>> dc58aa4523b8e4bf00ab02f4b07a73daefd20635
             outputStream.write(content.getBytes());
             outputStream.close();
             return true;
@@ -75,6 +93,7 @@ public class Logger {
         }
     }
 
+<<<<<<< HEAD
     public static void logger() {
         Log.d("Marcio","Logger: Logger");
         Thread thLogger = new Thread(new Runnable() {
@@ -133,3 +152,55 @@ public class Logger {
     }
 
 }
+=======
+    public static int logger() {
+        Calendar rightNow = Calendar.getInstance();
+        int day = rightNow.get(Calendar.DAY_OF_MONTH);
+        int month = rightNow.get(Calendar.MONTH);
+        int year = rightNow.get(Calendar.YEAR);
+        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
+        int min = rightNow.get(Calendar.MINUTE);
+        int sec = rightNow.get(Calendar.SECOND);
+        int msec = rightNow.get(Calendar.MILLISECOND);
+        boolean error;
+        String dirName = "Testes no LIC" + " " + year + month + day;
+        String fileName = "nomedoarquivo" + ".csv";
+        String content =
+                        String.format("%02d", day) + "/" +
+                        String.format("%02d", month) + "/" +
+                        String.format("%02d", year ) + "," +
+                        String.format("%02d", hour) + ":" +
+                        String.format("%02d", min) + ":" +
+                        String.format("%02d", sec) + ":" +
+                        String.format("%03d", msec) + "," +
+                        "leitura 1" + "," +
+                        "leitura 2" + "," +
+                        "leitura 3" +
+                        "\n";
+
+        error = isExternalStorageWritable();
+        if(!error){
+            Log.e("Logger", "Error: Directory isn't writable");
+            return 20;
+        }
+        Log.e("Logger", "Storage is writable");
+
+        File dir = mkDir(dirName);
+
+        error = checkFreeSpace(dir);
+        if(!error){
+            Log.e("Logger", "Error: There is no free space");
+            return 21;
+        }
+        Log.e("Logger", "There is free space");
+
+        error = saveFile(dir.toString(), fileName, content);
+        if(!error){
+            Log.e("Logger", "Error: can't save file");
+            return 22;
+        }
+        Log.e("Logger", "File saved at " + dir.toString() + "/" + fileName);
+        return 0;
+    }
+}
+>>>>>>> dc58aa4523b8e4bf00ab02f4b07a73daefd20635
