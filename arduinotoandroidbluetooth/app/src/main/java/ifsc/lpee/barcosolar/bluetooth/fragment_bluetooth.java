@@ -121,11 +121,11 @@ public class fragment_bluetooth extends Fragment implements OnClickListener {
 		// - mudar o item selecionado no menu;
 
 		// Replaces the current fragment to fragment_communication
-		Fragment fragment = new fragment_communication();
+		//Fragment fragment = new fragment_communication();
 		// update the main content by replacing fragments
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.container, fragment)
-				.commit();
+		//FragmentManager fragmentManager = getFragmentManager();
+		//fragmentManager.beginTransaction().replace(R.id.container, fragment)
+		//		.commit();
 	}
 
 	//

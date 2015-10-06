@@ -1,24 +1,166 @@
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#ffffffff"
+    android:gravity="bottom">
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
+        android:id="@+id/LinearLayout3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="25dp"
+        android:paddingTop="25dp"
+        android:weightSum="1"
+        android:gravity="center_horizontal|bottom"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:visibility="gone">
+
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="50sp"
+            android:id="@+id/Barrinha"
+            android:max="100"
+            android:progress="50"
+            android:layout_weight="0.5"
+            android:paddingLeft="20dp"
+            android:paddingRight="0dp" />
+
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/Barrinha2"
+            android:max="100"
+            android:progress="50"
+            android:layout_weight="0.5"
+            android:paddingRight="20dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:paddingBottom="25dp"
-        android:paddingTop="25dp" >
+        android:layout_alignParentBottom="true"
+        android:id="@+id/LinearLayout2"
+        android:gravity="center"
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="50dp" >
+            android:padding="50dp" >
+
+            <TextView
+                android:id="@+id/TextView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvAutonomy"
+                android:layout_alignBottom="@+id/tvAutonomy"
+                android:layout_toRightOf="@+id/tvAutonomy"
+                android:text="@string/Time"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace"
+                android:textColor="#ff000000"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/TextView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Autonomy"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace"
+                android:textColor="#ff000000"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tvAutonomy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/TextView21"
+                android:text="35,8"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/txtdimen2"
+                android:typeface="monospace"
+                android:textColor="#ff000000"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="50sp">
+
+            <TextView
+                android:id="@+id/TextView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvVelocity"
+                android:layout_alignBottom="@+id/tvVelocity"
+                android:layout_toRightOf="@+id/tvVelocity"
+                android:text="@string/Vel"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace"
+                android:textColor="#ff000000"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/TextView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Velocity"
+                android:typeface="monospace"
+                android:textColorHint="@android:color/black"
+                android:textColor="@android:color/black"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tvVelocity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/TextView17"
+                android:text="13,8"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/txtdimen2"
+                android:typeface="monospace"
+                android:textColor="#ff000000" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="25sp"
+        android:paddingTop="25sp"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/LinearLayout2"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50sp"
+            android:visibility="visible"
+            android:id="@+id/RLTensao">
 
             <TextView
                 android:id="@+id/TextView16"
@@ -29,15 +171,19 @@
                 android:layout_toRightOf="@+id/tvVoltageBattery"
                 android:text="@string/Volts"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:textColor="#ff000000"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/TextView18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tensao Bat"
+                android:text="@string/Voltage.Bat"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:textColor="@android:color/black"
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/tvVoltageBattery"
@@ -45,102 +191,19 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/TextView18"
-                android:text="@string/Unknown"
+                android:text="25,2"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="50sp"
-                android:typeface="monospace" />
+                android:textSize="@dimen/txtdimen1"
+                android:typeface="monospace"
+                android:textColor="#ff000000" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="50dp" >
-
-            <TextView
-                android:id="@+id/TextView01"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tvCurrentBatteryOut"
-                android:layout_alignBottom="@+id/tvCurrentBatteryOut"
-                android:layout_toRightOf="@+id/tvCurrentBatteryOut"
-                android:text="@string/Amps"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
-
-            <TextView
-                android:id="@+id/TextView03"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Corrente Bateria"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
-
-            <TextView
-                android:id="@+id/tvCurrentBatteryOut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/TextView03"
-                android:text="@string/Unknown"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="50sp"
-                android:typeface="monospace" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="50dp" >
-
-            <TextView
-                android:id="@+id/TextView05"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tvCurrentBatteryIn"
-                android:layout_alignBottom="@+id/tvCurrentBatteryIn"
-                android:layout_toRightOf="@+id/tvCurrentBatteryIn"
-                android:text="@string/Amps"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
-
-            <TextView
-                android:id="@+id/TextView06"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Corrente saida"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
-
-            <TextView
-                android:id="@+id/tvCurrentBatteryIn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/TextView06"
-                android:text="@string/Unknown"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="50sp"
-                android:typeface="monospace" />
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/LinearLayout01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:paddingBottom="25dp"
-        android:paddingTop="25dp"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="50dp" >
+            android:paddingLeft="50sp"
+            android:id="@+id/RLTempEle"
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/TextView08"
@@ -151,15 +214,19 @@
                 android:layout_toRightOf="@+id/tvTemperatureBattery"
                 android:text="@string/Celsius"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:textColor="#ff000000"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/TextView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Temp Bat"
+                android:text="@string/Temp.Eletronica"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:textColor="@android:color/black"
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/tvTemperatureBattery"
@@ -167,16 +234,19 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/TextView12"
-                android:text="@string/Unknown"
+                android:text="42,6"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="50sp"
-                android:typeface="monospace" />
+                android:textSize="@dimen/txtdimen1"
+                android:typeface="monospace"
+                android:textColor="#ff000000" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="50dp" >
+            android:paddingLeft="50sp"
+            android:id="@+id/RLTempMotor"
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/TextView11"
@@ -187,15 +257,19 @@
                 android:layout_toRightOf="@+id/tvTemperatureMotor"
                 android:text="@string/Celsius"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:textColor="#ff000000"
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/TextView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Temp Motor"
+                android:text="@string/Temp.Motor"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:textColor="#ff000000"
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/tvTemperatureMotor"
@@ -203,201 +277,114 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/TextView10"
-                android:text="@string/Unknown"
+                android:text="38,1"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="50sp"
-                android:typeface="monospace"/>
+                android:textSize="@dimen/txtdimen1"
+                android:typeface="monospace"
+                android:textColor="#ff000000"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="50dp" >
+            android:paddingLeft="50sp"
+            android:id="@+id/RLPot"
+            android:visibility="visible">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/TextView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tvPotIn"
-                android:layout_alignBottom="@+id/tvPotIn"
-                android:layout_toRightOf="@+id/tvPotIn"
-                android:text="Watts"
+                android:layout_alignBaseline="@+id/tvPot"
+                android:layout_alignBottom="@+id/tvPot"
+                android:layout_toRightOf="@+id/tvPot"
+                android:text="@string/Watts"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:textColor="#ff000000"
+                android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/TextView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pot Painéis"
+                android:text="@string/Power"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:textColor="#ff000000"
+                android:textSize="25sp"/>
 
             <TextView
-                android:id="@+id/tvPotIn"
+                android:id="@+id/tvPot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/textView2"
-                android:text="@string/Unknown"
+                android:layout_below="@+id/TextView6"
+                android:text="-521"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="50sp"
-                android:typeface="monospace" />
+                android:textSize="@dimen/txtdimen1"
+                android:typeface="monospace"
+                android:textColor="#ff000000"/>
+
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="50dp" >
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tvPotSaida"
-                android:layout_alignBottom="@+id/tvPotSaida"
-                android:layout_toRightOf="@+id/tvPotSaida"
-                android:text="Watts"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pot Motor"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="monospace" />
-
-            <TextView
-                android:id="@+id/tvPotSaida"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/textView4"
-                android:text="@string/Unknown"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="50sp"
-                android:typeface="monospace" />
-        </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:padding="50dp" >
-
-        <TextView
-            android:id="@+id/TextView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tvVelocity"
-            android:layout_alignBottom="@+id/tvVelocity"
-            android:layout_toRightOf="@+id/tvVelocity"
-            android:text="@string/Vel"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:typeface="monospace" />
-
-        <TextView
-            android:id="@+id/TextView17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Velocity"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:typeface="monospace" />
-
-        <TextView
-            android:id="@+id/tvVelocity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/TextView17"
-            android:text="@string/Unknown"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="100sp"
-            android:typeface="monospace" />
-    </RelativeLayout>
+        android:id="@+id/switch1"
+        android:checked="false"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="TituloLoggerOnOff"
+        android:text="Logger"
+        android:textColor="#f00"/>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:padding="50dp" >
+        android:layout_width="500dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:id="@+id/RLLogger"
+        android:visibility="invisible"
+        android:background="@android:drawable/picture_frame"
+        android:layout_below="@+id/switch1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="67dp">
 
         <TextView
-            android:id="@+id/TextView20"
+            android:id="@+id/TextView22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tvAutonomy"
-            android:layout_alignBottom="@+id/tvAutonomy"
-            android:layout_toRightOf="@+id/tvAutonomy"
-            android:text="@string/Time"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:typeface="monospace" />
-
-        <TextView
-            android:id="@+id/TextView21"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Autonomy"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:typeface="monospace" />
-
-        <TextView
-            android:id="@+id/tvAutonomy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/TextView21"
-            android:text="@string/Unknown"
+            android:text="@string/logger"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="100sp"
-            android:typeface="monospace" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="50dp"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_below="@+id/LinearLayout01"
-        android:layout_centerHorizontal="true">
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tvdPot"
-            android:layout_alignBottom="@+id/tvdPot"
-            android:layout_toRightOf="@+id/tvdPot"
-            android:text="Watts"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:typeface="monospace" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Diferença Potencia"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:typeface="monospace" />
-
-        <TextView
-            android:id="@+id/tvdPot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="false"
-            android:layout_below="@+id/textView6"
-            android:text="@string/Unknown"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="50sp"
             android:typeface="monospace"
-            android:layout_alignParentTop="false"
-            android:layout_alignWithParentIfMissing="false"
-            android:layout_alignParentRight="false" />
+            android:textColor="#000"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/editText"
+            android:inputType="textShortMessage"
+            android:layout_below="@+id/TextView22"
+            android:layout_alignParentLeft="true"
+            android:textColor="#000"
+            android:textColorHighlight="#000"
+            android:layout_toLeftOf="@+id/button"
+            android:text="Teste do Logger"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:id="@+id/button"
+            android:layout_alignBottom="@+id/editText"
+            android:layout_alignParentRight="true"
+            android:onClick="TituloOk"/>
+
     </RelativeLayout>
 
-</RelativeLayout><!-- From: file:/home/marcio/Desktop/IFSC/BARCO/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/layout/fragment_communication.xml -->
+</RelativeLayout><!-- From: file:/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/layout/fragment_communication.xml -->

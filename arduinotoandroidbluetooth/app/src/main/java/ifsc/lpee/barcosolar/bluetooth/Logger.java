@@ -30,9 +30,7 @@ public class Logger {
 
     /* Checks if the device has free space*/
     public static boolean thereIsFreeSpace(File dir) {
-        if ((dir.getFreeSpace() / dir.getTotalSpace()) <= 0.9f)
-            return true;
-        return false;
+        return (dir.getFreeSpace() / dir.getTotalSpace()) <= 0.9f;
     }
 
     /* Checks if external storage is available for read and write */
@@ -91,11 +89,9 @@ public class Logger {
                     int min = rightNow.get(Calendar.MINUTE);
                     int sec = rightNow.get(Calendar.SECOND);
                     int msec = rightNow.get(Calendar.MILLISECOND);
-                    String dirName = "Testes no LIC" + " " + year + month + day;
-                    String fileName = MainActivity.titulo + year + month + day + ".csv";
-                    String content =
-                            day + "/" + month + "/" + year + "," +
-                                    hour + ":" + min + ":" + sec + ":" + msec + "," +
+                    String dirName = "Zenite";
+                    String fileName = MainActivity.titulo + " " + day + "/" + month + "/" + year + ".csv";
+                    String content = hour + ":" + min + ":" + sec + ":" + msec + "," +
                                     "leitura 1" + "," +
                                     "leitura 2" + "," +
                                     "leitura 3" +

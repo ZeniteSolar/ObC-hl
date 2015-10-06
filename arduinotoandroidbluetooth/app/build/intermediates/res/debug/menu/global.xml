@@ -1,10 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
+<!--
+    <item
+        android:id="@+id/action_example"
+        android:showAsAction="never"
+        android:title="@string/action_example"/>
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+        -->
 
 </menu>
-<!-- From: file:/home/marcio/Desktop/IFSC/BARCO/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/menu/global.xml -->
+<!-- From: file:/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/menu/global.xml -->

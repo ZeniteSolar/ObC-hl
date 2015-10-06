@@ -7,4 +7,4 @@
     android:divider="@android:color/transparent"
     android:dividerHeight="0dp"
     tools:context="ifsc.lpee.barcosolar.bluetooth.NavigationDrawerFragment" />
-<!-- From: file:/home/marcio/Desktop/IFSC/BARCO/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/layout/fragment_navigation_drawer.xml -->
+<!-- From: file:/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/layout/fragment_navigation_drawer.xml -->

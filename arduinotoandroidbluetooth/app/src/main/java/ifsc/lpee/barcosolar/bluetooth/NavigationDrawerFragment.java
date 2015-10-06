@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,18 +31,18 @@ import android.widget.Toast;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-	/**
+	/*
 	 * Remember the position of the selected item.
 	 */
 	private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
-	/**
+	/*
 	 * Per the design guidelines, you should show the drawer on launch until the
 	 * user manually expands it. This shared preference tracks this.
 	 */
 	private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
-	/**
+	/*
 	 * A pointer to the current callbacks instance (the Activity).
 	 */
 	private NavigationDrawerCallbacks mCallbacks;
@@ -120,7 +121,7 @@ public class NavigationDrawerFragment extends Fragment {
 				&& mDrawerLayout.isDrawerOpen(mFragmentContainerView);
 	}
 
-	/**
+	/*
 	 * Users of this fragment must call this method to set up the navigation
 	 * drawer interactions.
 	 * 
@@ -211,6 +212,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 	private void selectItem(int position) {
 		mCurrentSelectedPosition = position;
+		Log.d("Marcio", "NavigationDrawerFragment: selectItem");
 		if (mDrawerListView != null) {
 			mDrawerListView.setItemChecked(position, true);
 		}
@@ -224,6 +226,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 	@Override
 	public void onAttach(Activity activity) {
+		Log.d("Marcio", "NavigationDrawerFragment: onAttach");
 		super.onAttach(activity);
 		try {
 			mCallbacks = (NavigationDrawerCallbacks) activity;
@@ -267,14 +270,14 @@ public class NavigationDrawerFragment extends Fragment {
 
 	// ADD HERE ACTION BAR ITENS
 	// https://www.youtube.com/watch?v=qD5BBsTzq2Q
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-
-		if (item.getItemId() == R.id.action_example) {
-			Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT)
+		if (item.getItemId() == R.id.title_section1) {
+			Toast.makeText(getActivity(), "Configurações selecionado", Toast.LENGTH_SHORT)
 					.show();
 			return true;
 		}
@@ -291,7 +294,7 @@ public class NavigationDrawerFragment extends Fragment {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		actionBar.setTitle(R.string.app_name);
+		//actionBar.setTitle(R.string.app_name);
 	}
 
 	private ActionBar getActionBar() {

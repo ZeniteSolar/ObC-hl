@@ -4,11 +4,11 @@
     <string name="app_name">Zênite Solar</string>
     <string name="title_section1">Comunicação</string>
     <string name="title_section2">Configuração Bluetooth</string>
-    <string name="title_section3"> </string>
+    <string name="title_section3">Configuração Logger</string>
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="navigation_drawer_close">Fechar menu</string>
-    <string name="action_example">Bluetooth Configs</string>
-    <string name="action_settings">Configurações</string>
+    <string name="action_example">Configurações Bluetooth</string>
+    <string name="action_settings">Comunicação</string>
     
     <!--  fragment_bluetooth -->
     <string name="Bluetooth">Bluetooth: </string>
@@ -27,14 +27,15 @@
 	<string name="HidePairedList">Hide devices available to connect</string>
 	
 	<!--  fragment_communication -->
-	<string name="Temp:Motor">Motor Temp.:</string>
-	<string name="Temp:Bat">Bat. Temp.:</string>
-	<string name="Voltage:Bat">Bat. Volt.:</string>
+	<string name="Temp.Motor">Temp. Motor:</string>
+	<string name="Temp.Eletronica">Temp. Elet.:</string>
+	<string name="Voltage.Bat">Tensão:</string>
 	<string name="Current:Bat:IN">Pan. Cur.:</string>
 	<string name="Current:Bat:OUT">Bat. Cur.:</string>
 	<string name="Velocity">Velocidade:</string>
 	<string name="Autonomy">Autonomia:</string>
 	<string name="PowerRate">Taxa da Potência:</string>
+	<string name="Power">Potência:</string>
 	<string name="SystemStatus">Status do sistema:</string>
 	<string name="Unknown">_</string>
 	<string name="Celsius">[°C]</string>
@@ -42,4 +43,7 @@
 	<string name="Amps">[A]</string>
 	<string name="Vel">[Km/h]</string>
 	<string name="Time">[min]</string>
+	<string name="Watts">[W]</string>
+	<string name="logger">Insira o título.(MAX 30)</string>
+	<string name="loggerbutton">Ok</string>
 </resources>

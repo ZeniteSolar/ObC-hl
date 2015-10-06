@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/home/marcio/Desktop/IFSC/BARCO/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="navigation_drawer_width">240dp</dimen>
-    <!-- From: file:/home/marcio/Desktop/IFSC/BARCO/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/values/strings.xml -->
+    <dimen name="txtdimen1">55sp</dimen>
+    <dimen name="txtdimen2">90sp</dimen>
+    <!-- From: file:/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="Amps">[A]</string>
     <string name="Autonomy">Autonomia:</string>
@@ -24,29 +26,33 @@
     <string name="List">List Devices</string>
     <string name="Off">Off</string>
     <string name="On">On</string>
+    <string name="Power">Potência:</string>
     <string name="PowerRate">Taxa da Potência:</string>
     <string name="ShowPairedList">Show devices available to connect</string>
     <string name="SystemStatus">Status do sistema:</string>
-    <string name="Temp:Bat">Bat. Temp.:</string>
-    <string name="Temp:Motor">Motor Temp.:</string>
+    <string name="Temp.Eletronica">Temp. Elet.:</string>
+    <string name="Temp.Motor">Temp. Motor:</string>
     <string name="Time">[min]</string>
     <string name="Unknown">_</string>
     <string name="Vel">[Km/h]</string>
     <string name="Velocity">Velocidade:</string>
     <string name="Visible">Get Visible</string>
-    <string name="Voltage:Bat">Bat. Volt.:</string>
+    <string name="Voltage.Bat">Tensão:</string>
     <string name="Volts">[V]</string>
-    <string name="action_example">Bluetooth Configs</string>
-    <string name="action_settings">Configurações</string>
+    <string name="Watts">[W]</string>
+    <string name="action_example">Configurações Bluetooth</string>
+    <string name="action_settings">Comunicação</string>
     <string name="app_name">Zênite Solar</string>
+    <string name="logger">Insira o título.(MAX 30)</string>
+    <string name="loggerbutton">Ok</string>
     <string name="navigation_drawer_close">Fechar menu</string>
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="title_section1">Comunicação</string>
     <string name="title_section2">Configuração Bluetooth</string>
-    <string name="title_section3"> </string>
-    <!-- From: file:/home/marcio/Desktop/IFSC/BARCO/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/values/styles.xml -->
+    <string name="title_section3">Configuração Logger</string>
+    <!-- From: file:/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/values/styles.xml -->
     <eat-comment/>
-    <style name="AppBaseTheme" parent="android:Theme.Light">
+    <style name="AppBaseTheme" parent="android:Theme.Light.NoTitleBar">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
