@@ -11,6 +11,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by joaoantoniocardoso on 9/20/15.
@@ -67,8 +68,8 @@ public class Logger {
         FileOutputStream outputStream;
         try {
             file = new File(dir, fileName);
-
             outputStream = new FileOutputStream(file, true);
+
             outputStream.write(content.getBytes());
             outputStream.close();
             return true;
@@ -86,25 +87,30 @@ public class Logger {
                 while(MainActivity.log) {
                     Calendar rightNow = Calendar.getInstance();
                     int day = rightNow.get(Calendar.DAY_OF_MONTH);
-                    int month = rightNow.get(Calendar.MONTH);
+                    int month = rightNow.get(Calendar.MONTH) + 1;//retorna um a menos que o mes atual
                     int year = rightNow.get(Calendar.YEAR);
                     int hour = rightNow.get(Calendar.HOUR_OF_DAY);
                     int min = rightNow.get(Calendar.MINUTE);
                     int sec = rightNow.get(Calendar.SECOND);
                     int msec = rightNow.get(Calendar.MILLISECOND);
                     String dirName = "Zenite";
-                    String fileName = MainActivity.titulo + " " + String.format("%02d", day) + "/" +
-                            String.format("%02d", month) + "/" +
+                    String fileName =
+                            MainActivity.titulo          + " " +
+                            String.format("%02d", day)   + "_" +
+                            String.format("%02d", month) + "_" +
                             String.format("%02d", year ) + ".csv";
                     String content =
-                                    String.format("%02d", hour) + ":" +
-                                    String.format("%02d", min) + ":" +
-                                    String.format("%02d", sec) + ":" +
-                                    String.format("%03d", msec) + "," +
-                                    "leitura 1" + "," +
-                                    "leitura 2" + "," +
-                                    "leitura 3" +
-                                    "\n";
+                            String.format("%02d", hour) + ":" +
+                            String.format("%02d", min)  + ":" +
+                            String.format("%02d", sec)  + ":" +
+                            String.format("%03d", msec) + "," +
+                            String.format(Locale.US, "%3.1f",fragment_communication.Temperature1)  + "," +
+                            String.format(Locale.US, "%3.1f",fragment_communication.Temperature2)  + "," +
+                            String.format(Locale.US, "%3.1f",fragment_communication.Current1)      + "," +
+                            String.format(Locale.US, "%3.1f",fragment_communication.Current2)      + "," +
+                            String.format(Locale.US, "%3.1f",fragment_communication.Voltage1)      + "," +
+                            String.format(Locale.US, "%3.1f",fragment_communication.nCurrentSpeed) + "," +
+                            "\n";
 
                     if(!isExternalStorageWritable()){
                         Log.e("Logger", "Error: Directory isn't writable");

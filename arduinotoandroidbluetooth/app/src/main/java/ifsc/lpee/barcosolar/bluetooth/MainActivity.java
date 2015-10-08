@@ -52,14 +52,14 @@ import java.util.Locale;
 import java.util.Set;
 
 public class MainActivity extends Activity implements
-		NavigationDrawerFragment.NavigationDrawerCallbacks, IBaseGpsListener{
+		NavigationDrawerFragment.NavigationDrawerCallbacks{
 
-    public static BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    public static BluetoothSocket mmSocket;
-    public static BluetoothDevice mmDevice;
-    public static OutputStream mmOutputStream;
-    public static InputStream mmInputStream;
-    public static int flag1;
+	public static BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+	public static BluetoothSocket mmSocket;
+	public static BluetoothDevice mmDevice;
+	public static OutputStream mmOutputStream;
+	public static InputStream mmInputStream;
+	public static int flag1;
 
 	public String mTitle;
 	public static boolean log = false;
@@ -70,6 +70,7 @@ public class MainActivity extends Activity implements
 	 * {__link #restoreActionBar()}.
 	 */
 	//private CharSequence mTitle;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +99,6 @@ public class MainActivity extends Activity implements
 		fragmentManager.beginTransaction().replace(R.id.container, fragment)
 				.commit();
 
-		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, this);
 	}
 
 	// http://stackoverflow.com/questions/20638967/how-to-change-fragments-using-android-navigation-drawer
@@ -123,39 +122,37 @@ public class MainActivity extends Activity implements
 //		fragmentManager.beginTransaction().replace(R.id.container, fragment)
 //				.commit();
 	}
-/*
-	public void onSectionAttached(int number) {
-		Log.d("Marcio", "MainActivity: onSectionAttached");
-		switch (number) {
-			case 1:
-				mTitle = getString(R.string.title_section1);
-				break;
-			case 2:
-				mTitle = getString(R.string.title_section2);
-				break;
-			case 3:
-				mTitle = getString(R.string.title_section3);
-				break;
-		}
-	}
-*/
+
+//	public void onSectionAttached(int number) {
+//		Log.d("Marcio", "MainActivity: onSectionAttached");
+//		switch (number) {
+//			case 1:
+//				mTitle = getString(R.string.title_section1);
+//				break;
+//			case 2:
+//				mTitle = getString(R.string.title_section2);
+//				break;
+//			case 3:
+//				mTitle = getString(R.string.title_section3);
+//				break;
+//		}
+//	}
+
 //
 //	public void restoreActionBar() {
 //		ActionBar actionBar = getActionBar();
 //		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 //		actionBar.setDisplayShowTitleEnabled(true);
 //		actionBar.setTitle(mTitle);
-//	}
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+	Log.d("Marcio", "MainActivity: onCreateOptionsMenu");
+	getMenuInflater().inflate(R.menu.main, menu);
+	return true;
+}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.d("Marcio", "MainActivity: onCreateOptionsMenu");
-			getMenuInflater().inflate(R.menu.main, menu);
-			return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {//retorna true ser tratou a interrupçao
+	public boolean onOptionsItemSelected(MenuItem item) {//trata do toque no menu, retorna true ser tratou a interrupçao
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
@@ -165,8 +162,7 @@ public class MainActivity extends Activity implements
 		int id = item.getItemId();
 
 		if (id == R.id.title_section1){
-			/*Toast.makeText(getApplicationContext() , "Configurações Selecionado.", Toast.LENGTH_SHORT)
-					.show();*/
+
 			fragment = new fragment_communication();
 			mTitle = getString(R.string.title_section1);
 			fragmentManager.beginTransaction().replace(R.id.container, fragment)
@@ -174,8 +170,6 @@ public class MainActivity extends Activity implements
 			return true;
 		}
 		if(id == R.id.title_section2){
-			/*Toast.makeText(getApplicationContext(), "Bluetooth config Selecionado.", Toast.LENGTH_SHORT)
-					.show();*/
 			fragment = new fragment_bluetooth();
 			mTitle = getString(R.string.title_section2);
 			fragmentManager.beginTransaction().replace(R.id.container, fragment)
@@ -183,17 +177,16 @@ public class MainActivity extends Activity implements
 			return true;
 		}
 		if(id == R.id.title_section3){
-			/*Toast.makeText(getApplicationContext(), "Configuração logger Selecionado.", Toast.LENGTH_SHORT)
-					.show();*/
-			//TituloLogger();
+			Toast.makeText(getApplicationContext() , "Opção indisponível", Toast.LENGTH_SHORT)
+					.show();
 			return true;
 		}
 		Log.e("Marcio", "Opção do main menu sem tratamento.");
 		return false;//Se retornar falso o app da crash
-		//return super.onOptionsItemSelected(item);//outro tratamento
+		//return super.onOptionsItemSelected(item);
 	}
 
-	public boolean TituloLoggerOnOff(View view) {
+	public void TituloLoggerOnOff(View view) {//controla o toque na chave do Logger
 		Switch chave = (Switch) findViewById(R.id.switch1);
 		if (chave.isChecked()) {
 			Toast.makeText(getBaseContext(),"SwitchOn",Toast.LENGTH_LONG ).show();
@@ -203,10 +196,9 @@ public class MainActivity extends Activity implements
 			log = false;
 			ChangeTituloView(false);
 		}
-		return true;
 	}
 
-	public void ChangeTituloView(boolean i){
+	public void ChangeTituloView(boolean i){//deixa ou não a opcao de titulo visivel
 		View RL = findViewById(R.id.RLLogger);
 		if(i) {
 			RL.setVisibility(View.VISIBLE);
@@ -216,6 +208,8 @@ public class MainActivity extends Activity implements
 		}
 	}
 
+//	}
+
 
 	/*
 	 * A placeholder fragment containing a simple view.
@@ -223,7 +217,6 @@ public class MainActivity extends Activity implements
 	/*public static class PlaceholderFragment extends Fragment {
 		/**
 		private static final String ARG_SECTION_NUMBER = "section_number";
-
 		/**
 		 * Returns a new instance of this fragment for the given section number.
 		 */
@@ -235,7 +228,6 @@ public class MainActivity extends Activity implements
 			fragment.setArguments(args);
 			return fragment;
 		}
-
 		public PlaceholderFragment() {
 		}
 *
@@ -246,7 +238,6 @@ public class MainActivity extends Activity implements
 					container, // main screen
 					false);
 		}
-
 		@Override
 		public void onAttach(Activity activity) {
 			Log.d("Marcio", "MainActivity: onAttach");
@@ -254,17 +245,9 @@ public class MainActivity extends Activity implements
 			((MainActivity) activity).onSectionAttached(getArguments().getInt(
 					ARG_SECTION_NUMBER));
 		}
-
 	}*/
 
-//	@Override
-//	public void onClick(View view) {
-//		if(keyCode == event.KEYCODE_ENTER){
-//			//call your button method here
-//		}
-//	}
-
-	public boolean TituloOk(View view){
+	public void TituloOk(View view){
 		Log.d("Marcio", "ActivityMain: TituloOk");
 
 		EditText Txt = (EditText) findViewById(R.id.editText);
@@ -273,54 +256,9 @@ public class MainActivity extends Activity implements
 		ChangeTituloView(false);
 		log = true;
 		Logger.logger();
-		return true;
 	}
 
-	@Override
-	public void onLocationChanged(Location location) {//quando a localização mudar
-		//TODO Auto-generated method stub
-		if(location != null){
-			this.updateSpeed(location);
-		}
-	}
 
-	@Override
-	public void onProviderDisabled(String provider) {
-		this.updateSpeed(null);
-	}
 
-	@Override
-	public void onProviderEnabled(String provider) {
 
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-
-	}
-
-	@Override
-	public void onGpsStatusChanged(int event) {
-
-	}
-
-	private void updateSpeed(Location location){
-//		//TODO Auto-generated method stub
-		TextView txtCurrentSpeed = (TextView) this.findViewById(R.id.tvVelocity);
-
-		float nCurrentSpeed = 0;
-
-		String strCurrentSpeed = "_";
-
-		if(location!=null) {
-			nCurrentSpeed = location.getSpeed() * 3.6f;
-
-			Formatter fmt = new Formatter(new StringBuilder());//formata a velocidade
-			fmt.format(Locale.getDefault(), "%3.1f", nCurrentSpeed);
-			strCurrentSpeed = fmt.toString();
-
-		}
-
-		txtCurrentSpeed.setText(strCurrentSpeed);//atualiza o campo da velocidade
-	}
 }

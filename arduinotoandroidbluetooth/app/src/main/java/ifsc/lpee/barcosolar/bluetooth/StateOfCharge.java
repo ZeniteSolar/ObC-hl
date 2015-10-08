@@ -1,5 +1,7 @@
 package ifsc.lpee.barcosolar.bluetooth;
 
+import java.util.Calendar;
+
 /**
  * Created by joaoantoniocardoso on 10/4/15.
  */
@@ -27,8 +29,8 @@ public class StateOfCharge {
             systemPower = 0,
             t_remain = 0;
     public static int NominalVoltage = 24;
-    private static double test_current = 0; // teste do getCurrent();
-    private static double test_time = 0; // teste do getCurrent();
+//    private static double test_current = 0; // teste do getCurrent();
+//    private static double test_time = 0; // teste do getCurrent();
     private static int test_iterator = 0;
     public static boolean 	stopSOCWorker = false;
 
@@ -41,32 +43,32 @@ public class StateOfCharge {
         Q = R1 * Math.pow((C1 / R1), k);
 
         // relata entrada
-        System.out.println("Nominal Voltage: " + NominalVoltage + " V");
-        System.out.println("Total Battery Capacity: " + "\n" + "          C: " + C1 + " Ah" + ", E: "
-                + (NominalVoltage * C1) + " Wh for " + R1 + " hours" + "\n" + "          C: " + C2 + " Ah" + ", E: "
-                + (NominalVoltage * C2) + " Wh for " + R2 + " hours");
-        System.out.println("Peukert Constant: " + k);
-        System.out.println("Peukert Capacity: " + Q + " Ah");
-        System.out.println("Peukert Power: " + Q * NominalVoltage + " Wh");
-        System.out.println("Initial SOC: " + soc_zero * 100 + " %");
-        System.out.println("Minimum SOC: " + soc_min * 100 + " %");
+//        System.out.println("Nominal Voltage: " + NominalVoltage + " V");
+//        System.out.println("Total Battery Capacity: " + "\n" + "          C: " + C1 + " Ah" + ", E: "
+//                + (NominalVoltage * C1) + " Wh for " + R1 + " hours" + "\n" + "          C: " + C2 + " Ah" + ", E: "
+//                + (NominalVoltage * C2) + " Wh for " + R2 + " hours");
+//        System.out.println("Peukert Constant: " + k);
+//        System.out.println("Peukert Capacity: " + Q + " Ah");
+//        System.out.println("Peukert Power: " + Q * NominalVoltage + " Wh");
+//        System.out.println("Initial SOC: " + soc_zero * 100 + " %");
+//        System.out.println("Minimum SOC: " + soc_min * 100 + " %");
 
         // inicia o monitoramento do estado de carga
         SOC();
 
         // executa cada iteração ao controle do usuário
-        while (!stopSOCWorker){
-
-        }
+//        while (!stopSOCWorker){
+//
+//        }
 
         // computa dados de saída
         i_average = nthrt(k, Qi / t_total);
 
         // relata saída
-        System.out.println("Final SOC: " + soc * 100 + " %");
-        System.out.println("Virtual Discharge Current (mean): " + i_average + " A");
-        System.out.println("Total Virtual Runtime: " + t_total + " hours");
-        System.out.println("test iterations: " + test_iterator);
+//        System.out.println("Final SOC: " + soc * 100 + " %");
+//        System.out.println("Virtual Discharge Current (mean): " + i_average + " A");
+//        System.out.println("Total Virtual Runtime: " + t_total + " hours");
+//        System.out.println("test iterations: " + test_iterator);
     }
 
     // enésema raiz de num
@@ -83,7 +85,7 @@ public class StateOfCharge {
         Thread worker = new Thread(new Runnable() {
             public void run() {
 
-                t_old = getTime();
+                t_old = getTime();//tempo inicial
 
                 while (!Thread.currentThread().isInterrupted() && !stopSOCWorker) {
 
@@ -127,18 +129,23 @@ public class StateOfCharge {
 
             // função com os dados do teste do acionamento
             private double getTime() {
+                Calendar rightNow = Calendar.getInstance();
                 // System.nanoTime()*1000000000/(60/60);
                 // System.currentTimeMillis()*1000/(60*60);
-                if (test_iterator == 0)
-                    test_time = 1; // minutos
-                else if (test_iterator == 9)
-                    test_time = 42;
-                else
-                    test_time = 5* test_iterator;
-
-                System.out.println("iteration: " + test_iterator + "; " + "Consuming " + -dsystemEnergy + " W; remaining " + t_remain + " hours to " + soc_min*100 + "% of remaining energy( " + systemEnergy + " Wh ).");
-                test_iterator++;
-                return test_time / 60; // horas
+                int hour = rightNow.get(Calendar.HOUR_OF_DAY);
+                int min = rightNow.get(Calendar.MINUTE);
+                int sec = rightNow.get(Calendar.SECOND);
+//                if (test_iterator == 0)
+//                    test_time = 1; // minutos
+//                else if (test_iterator == 9)
+//                    test_time = 42;
+//                else
+//                    test_time = 5* test_iterator;
+//
+//                System.out.println("iteration: " + test_iterator + "; " + "Consuming " + -dsystemEnergy + " W; remaining " + t_remain + " hours to " + soc_min*100 + "% of remaining energy( " + systemEnergy + " Wh ).");
+//                test_iterator++;
+//                return test_time / 60; // horas
+                return (hour + min/60 + sec /60/60);//retorno em horas
             }
 
             // função com os dados do teste do acionamento
@@ -148,31 +155,32 @@ public class StateOfCharge {
                     stopSOCWorker = true;
                 }
 
-                test_current = 1.9;
-                if (test_iterator == 0)
-                    test_current = 11.39;
-                else if (test_iterator == 1)
-                    test_current = 11.37;
-                else if (test_iterator == 2)
-                    test_current = 28.17;
-                else if (test_iterator == 3)
-                    test_current = 27.82;
-                else if (test_iterator == 4)
-                    test_current = 42.5;
-                else if (test_iterator == 5)
-                    test_current = 41.45;
-                else if (test_iterator == 6)
-                    test_current = 59.8;
-                else if (test_iterator == 7)
-                    test_current = 54.1;
-                else if (test_iterator == 8)
-                    test_current = 42.77;
-                else if (test_iterator == 9) {
-                    test_current = 39.33;
-
-                }
-
-                return test_current;
+//                test_current = 1.9;
+//                if (test_iterator == 0)
+//                    test_current = 11.39;
+//                else if (test_iterator == 1)
+//                    test_current = 11.37;
+//                else if (test_iterator == 2)
+//                    test_current = 28.17;
+//                else if (test_iterator == 3)
+//                    test_current = 27.82;
+//                else if (test_iterator == 4)
+//                    test_current = 42.5;
+//                else if (test_iterator == 5)
+//                    test_current = 41.45;
+//                else if (test_iterator == 6)
+//                    test_current = 59.8;
+//                else if (test_iterator == 7)
+//                    test_current = 54.1;
+//                else if (test_iterator == 8)
+//                    test_current = 42.77;
+//                else if (test_iterator == 9) {
+//                    test_current = 39.33;
+//
+//                }
+//
+//                return test_current;
+                return fragment_communication.Current2 - fragment_communication.Current1;//A diferença entre as correntes
             }
         });
         worker.start();

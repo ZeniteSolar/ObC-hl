@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/TextView21"
-                android:text="35,8"
+                android:text="@string/Unknown"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/txtdimen2"
                 android:typeface="monospace"
@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/TextView17"
-                android:text="13,8"
+                android:text="@string/Unknown"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/txtdimen2"
                 android:typeface="monospace"
@@ -234,7 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/TextView12"
-                android:text="42,6"
+                android:text="@string/Unknown"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/txtdimen1"
                 android:typeface="monospace"
@@ -277,7 +277,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/TextView10"
-                android:text="38,1"
+                android:text="@string/Unknown"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/txtdimen1"
                 android:typeface="monospace"
@@ -320,7 +320,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/TextView6"
-                android:text="-521"
+                android:text="@string/Unknown"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/txtdimen1"
                 android:typeface="monospace"
@@ -334,11 +334,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/switch1"
-        android:checked="false"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:onClick="TituloLoggerOnOff"
-        android:text="Logger"
+        android:text="@string/SwitchName"
         android:textColor="#f00"/>
 
     <RelativeLayout
@@ -374,12 +373,12 @@
             android:textColor="#000"
             android:textColorHighlight="#000"
             android:layout_toLeftOf="@+id/button"
-            android:text="Teste do Logger"/>
+            android:text="@string/DefaultTitle"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OK"
+            android:text="@string/OkButton"
             android:id="@+id/button"
             android:layout_alignBottom="@+id/editText"
             android:layout_alignParentRight="true"

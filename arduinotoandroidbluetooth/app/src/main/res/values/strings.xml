@@ -4,7 +4,7 @@
     <string name="app_name">Zênite Solar</string>
     <string name="title_section1">Comunicação</string>
     <string name="title_section2">Configuração Bluetooth</string>
-    <string name="title_section3">Configuração Logger</string>
+    <string name="title_section3">Modo de Operação</string>
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="navigation_drawer_close">Fechar menu</string>
     <string name="action_example">Configurações Bluetooth</string>
@@ -46,4 +46,7 @@
 	<string name="Watts">[W]</string>
 	<string name="logger">Insira o título.(MAX 30)</string>
 	<string name="loggerbutton">Ok</string>
+	<string name="DefaultTitle">Teste do Logger</string>
+	<string name="SwitchName">Logger</string>
+	<string name="OkButton">OK</string>
 </resources>

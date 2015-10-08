@@ -25,9 +25,11 @@ import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -40,13 +42,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class fragment_communication extends Fragment implements OnClickListener{
+public class fragment_communication extends Fragment implements OnClickListener, IBaseGpsListener{
 
 	TextView tvTemperatureBattery;
 	TextView tvTemperatureMotor;
 	TextView tvVoltageBattery;
 	TextView tvVelocity;
-//	TextView tvCurrentBatteryIn;
+	//	TextView tvCurrentBatteryIn;
 //	TextView tvCurrentBatteryOut;
 //	TextView tvPotIn;
 //	TextView tvPotSaida;
@@ -57,6 +59,8 @@ public class fragment_communication extends Fragment implements OnClickListener{
 
 	Switch switch1;
 
+	public static float Temperature1 = 0, Temperature2 = 0 , Voltage1 = 0, Current1= 0, Current2 = 0, nCurrentSpeed = 0;
+
 //	public BluetoothAdapter mBluetoothAdapter = new MainActivity().mBluetoothAdapter;
 //	public BluetoothSocket mmSocket = new MainActivity().mmSocket;
 //	public BluetoothDevice mmDevice = new MainActivity().mmDevice;
@@ -64,9 +68,17 @@ public class fragment_communication extends Fragment implements OnClickListener{
 //	public InputStream mmInputStream = new MainActivity().mmInputStream;
 
 	Thread workerThread;
-//	byte[] readBuffer;
+	//	byte[] readBuffer;
 	int readBufferPosition;
 	volatile boolean stopWorker;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, this);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,9 +107,10 @@ public class fragment_communication extends Fragment implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
+		Toast.makeText(getActivity(),"onClick:",Toast.LENGTH_LONG).show();
 	}
 
-//	Handler mHandler;
+	//	Handler mHandler;
 	//ref: http://stackoverflow.com/questions/12716850/android-update-textview-in-thread-and-runnable
 	private void updateTextView(final TextView textView, final String data) {
 
@@ -136,7 +149,6 @@ public class fragment_communication extends Fragment implements OnClickListener{
 			public void run() {
 				byte sensor;
 				int flag = 0; // Idle
-				float Temperature1, Temperature2 , Voltage1 = 3, Current1= 4, Current2;
 				byte[] packetBytes = new byte[7];
 				while (!Thread.currentThread().isInterrupted() && !stopWorker) {
 					try {
@@ -258,18 +270,43 @@ public class fragment_communication extends Fragment implements OnClickListener{
 	private void updateSpeed(Location location){
 //		//TODO Auto-generated method stub
 
-		float nCurrentSpeed;
 		String strCurrentSpeed = "_";
 
 		if(location!=null) {
 			nCurrentSpeed = location.getSpeed() * 3.6f;
 
-			Formatter fmt = new Formatter(new StringBuilder());//formata a velocidade
-			fmt.format(Locale.getDefault(), "%3.1f", nCurrentSpeed);
-			strCurrentSpeed = fmt.toString();
+			strCurrentSpeed = String.format(Locale.US, "%3.1f",nCurrentSpeed);
 		}
 
 		updateTextView(tvVelocity,strCurrentSpeed); //atualiza o campo da velocidade
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		this.updateSpeed(null);
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+
+	}
+
+	@Override
+	public void onGpsStatusChanged(int event) {
+
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {//quando a localização mudar
+		//TODO Auto-generated method stub
+		if(location != null){
+			this.updateSpeed(location);
+		}
 	}
 
 }

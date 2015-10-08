@@ -22,13 +22,16 @@
     <string name="Celsius">[°C]</string>
     <string name="Current:Bat:IN">Pan. Cur.:</string>
     <string name="Current:Bat:OUT">Bat. Cur.:</string>
+    <string name="DefaultTitle">Teste do Logger</string>
     <string name="HidePairedList">Hide devices available to connect</string>
     <string name="List">List Devices</string>
     <string name="Off">Off</string>
+    <string name="OkButton">OK</string>
     <string name="On">On</string>
     <string name="Power">Potência:</string>
     <string name="PowerRate">Taxa da Potência:</string>
     <string name="ShowPairedList">Show devices available to connect</string>
+    <string name="SwitchName">Logger</string>
     <string name="SystemStatus">Status do sistema:</string>
     <string name="Temp.Eletronica">Temp. Elet.:</string>
     <string name="Temp.Motor">Temp. Motor:</string>
@@ -49,7 +52,7 @@
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="title_section1">Comunicação</string>
     <string name="title_section2">Configuração Bluetooth</string>
-    <string name="title_section3">Configuração Logger</string>
+    <string name="title_section3">Modo de Operação</string>
     <!-- From: file:/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light.NoTitleBar">
