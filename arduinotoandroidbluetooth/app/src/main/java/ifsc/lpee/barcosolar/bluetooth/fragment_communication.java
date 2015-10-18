@@ -42,7 +42,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class fragment_communication extends Fragment implements OnClickListener, IBaseGpsListener{
+public class fragment_communication extends Fragment {
 
 	TextView tvTemperatureBattery;
 	TextView tvTemperatureMotor;
@@ -53,6 +53,7 @@ public class fragment_communication extends Fragment implements OnClickListener,
 //	TextView tvPotIn;
 //	TextView tvPotSaida;
 	TextView tvPot;
+	TextView tvSOC;
 	TextView tvPowerRate;
 	TextView tvSystemStatus;
 	TextView tvAutonomy;
@@ -60,6 +61,7 @@ public class fragment_communication extends Fragment implements OnClickListener,
 	Switch switch1;
 
 	public static float Temperature1 = 0, Temperature2 = 0 , Voltage1 = 0, Current1= 0, Current2 = 0, nCurrentSpeed = 0;
+	public static double nCurrentLat = 0, nCurrentLong = 0;
 
 //	public BluetoothAdapter mBluetoothAdapter = new MainActivity().mBluetoothAdapter;
 //	public BluetoothSocket mmSocket = new MainActivity().mmSocket;
@@ -73,23 +75,18 @@ public class fragment_communication extends Fragment implements OnClickListener,
 	volatile boolean stopWorker;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, this);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.fragment_communication, container,
 				false);
 
+		//setListners();
+
 		// Intent i = getActivity().getIntent();
 
 		tvPot = (TextView) v.findViewById(R.id.tvPot);
+		tvSOC = (TextView) v.findViewById(R.id.tvSOC);
 		tvTemperatureBattery = (TextView) v.findViewById(R.id.tvTemperatureBattery);
 		tvTemperatureMotor = (TextView) v.findViewById(R.id.tvTemperatureMotor);
 		tvVoltageBattery = (TextView) v.findViewById(R.id.tvVoltageBattery);
@@ -99,15 +96,10 @@ public class fragment_communication extends Fragment implements OnClickListener,
 
 		switch1.setChecked(MainActivity.log);
 
-		if(MainActivity.flag1==1) {
+		if(MainActivity.connected) {
 			beginListenForData();
 		}
 		return v;
-	}
-
-	@Override
-	public void onClick(View v) {
-		Toast.makeText(getActivity(),"onClick:",Toast.LENGTH_LONG).show();
 	}
 
 	//	Handler mHandler;
@@ -120,7 +112,10 @@ public class fragment_communication extends Fragment implements OnClickListener,
 					@Override
 					public void run() {
 						textView.setText(data);
-						textView.setTextColor(Color.RED);
+						if(Temperature2 > 69 | Temperature1 > 69){//temperatura limite é 70
+							Toast.makeText(getActivity() , "Temperatura muito alta",Toast.LENGTH_LONG).show();
+							textView.setTextColor(Color.RED);
+						}
 						//Log.d("Escrito na tela -> ", data + "  on  " + textView);
 					}
 				});
@@ -151,6 +146,10 @@ public class fragment_communication extends Fragment implements OnClickListener,
 				int flag = 0; // Idle
 				byte[] packetBytes = new byte[7];
 				while (!Thread.currentThread().isInterrupted() && !stopWorker) {
+					if(MainActivity.mBluetoothAdapter.getState() == 0){//se desconectado
+						MainActivity.connected = false;
+						break;
+					}
 					try {
 						switch (flag) {
 							case 0: // Idle
@@ -196,16 +195,17 @@ public class fragment_communication extends Fragment implements OnClickListener,
 										case (byte) 0xA0:
 											Temperature1 = fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6));
 											//Log.d("->", " Atualiza T1 ");
-											updateTextView(tvTemperatureBattery, Float.toString(Temperature1));
+											updateTextView(tvTemperatureBattery, String.format("%3.1f",Temperature1));
 											break;
 										case (byte) 0xA1:
 											Temperature2 = fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6));
-											updateTextView(tvTemperatureMotor, Float.toString(Temperature2));
+											updateTextView(tvTemperatureMotor, String.format("%3.1f", Temperature2));
+
 
 											break;
 										case (byte) 0xA2:
 											Voltage1 = fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6));
-											updateTextView(tvVoltageBattery, Float.toString(Voltage1));
+											updateTextView(tvVoltageBattery, String.format("%3.1f", Voltage1));
 											break;
 										case (byte) 0xA3:
 											Current1 = fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6));
@@ -216,13 +216,15 @@ public class fragment_communication extends Fragment implements OnClickListener,
 //											updateTextView(tvCurrentBatteryOut,  Float.toString(Current2));
 //											updateTextView(tvPotIn,   Float.toString(Current1*Voltage1));
 //											updateTextView(tvPotSaida,   Float.toString(Current2*Voltage1));
-											updateTextView(tvPot,   Float.toString(Current1*Voltage1 - Current2*Voltage1));
+											updateTextView(tvPot,   String.format("%2.0f", Current1 * Voltage1 - Current2 * Voltage1));
+											//updateTextView(tvSOC,   String.format("%3.1f", StateOfCharge.soc));
 											break;
 										default:
 											//Log.d("-> ", "DEFAUL  sensor");
 											break;
 									}
 								}
+
 								packetBytes[0] = 0;
 								packetBytes[1] = 0;
 								packetBytes[2] = 0;
@@ -267,46 +269,21 @@ public class fragment_communication extends Fragment implements OnClickListener,
         }
         */
 
-	private void updateSpeed(Location location){
-//		//TODO Auto-generated method stub
+//	public void setListners() {
+//		switch1.setOnClickListener(this);
+//	}
 
-		String strCurrentSpeed = "_";
+//	@Override
+//	public void onClick(View v) {
+//		switch (v.getId()) {
+//			case R.id.switch1:
+//
+//				Toast.makeText(getActivity() , "Opção indisponível", Toast.LENGTH_SHORT)
+//						.show();
+//				break;
+//		}
+//
+//	}
 
-		if(location!=null) {
-			nCurrentSpeed = location.getSpeed() * 3.6f;
-
-			strCurrentSpeed = String.format(Locale.US, "%3.1f",nCurrentSpeed);
-		}
-
-		updateTextView(tvVelocity,strCurrentSpeed); //atualiza o campo da velocidade
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-		this.updateSpeed(null);
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-
-	}
-
-	@Override
-	public void onGpsStatusChanged(int event) {
-
-	}
-
-	@Override
-	public void onLocationChanged(Location location) {//quando a localização mudar
-		//TODO Auto-generated method stub
-		if(location != null){
-			this.updateSpeed(location);
-		}
-	}
 
 }

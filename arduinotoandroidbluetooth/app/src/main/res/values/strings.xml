@@ -41,12 +41,14 @@
 	<string name="Celsius">[°C]</string>
 	<string name="Volts">[V]</string>
 	<string name="Amps">[A]</string>
-	<string name="Vel">[Km/h]</string>
+	<string name="Vel">[km/h]</string>
 	<string name="Time">[min]</string>
 	<string name="Watts">[W]</string>
 	<string name="logger">Insira o título.(MAX 30)</string>
 	<string name="loggerbutton">Ok</string>
-	<string name="DefaultTitle">Teste do Logger</string>
+	<string name="DefaultTitle">Teste no LIC</string>
 	<string name="SwitchName">Logger</string>
 	<string name="OkButton">OK</string>
+	<string name="percent">[%]</string>
+	<string name="SOC">Carga:</string>
 </resources>

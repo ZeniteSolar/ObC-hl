@@ -18,20 +18,22 @@ public class StateOfCharge {
             Q = 1, // capacidade total em Ah
             soc_zero = 1,
             soc_min = 0.2,
-            soc = 1,
+            soc = 1,//100%
             k = 1,
-            R1 = 20,
-            C1 = 38,
-            R2 = 1.1,
-            C2 = 27.5,
             systemEnergy = 0,
             dsystemEnergy = 0,
             systemPower = 0,
-            t_remain = 0;
+            t_remain = 0,
+    //dados de descargas conhecidas ,20h -> 38Ah e 1.1h -> 27.5Ah
+            R1 = 20,
+            C1 = 38,
+            R2 = 1.1,
+            C2 = 27.5;
+
     public static int NominalVoltage = 24;
 //    private static double test_current = 0; // teste do getCurrent();
 //    private static double test_time = 0; // teste do getCurrent();
-    private static int test_iterator = 0;
+//    private static int test_iterator = 0;
     public static boolean 	stopSOCWorker = false;
 
     // classe principal, configurada para executar o teste
@@ -69,6 +71,8 @@ public class StateOfCharge {
 //        System.out.println("Virtual Discharge Current (mean): " + i_average + " A");
 //        System.out.println("Total Virtual Runtime: " + t_total + " hours");
 //        System.out.println("test iterations: " + test_iterator);
+
+
     }
 
     // enésema raiz de num
@@ -87,10 +91,24 @@ public class StateOfCharge {
 
                 t_old = getTime();//tempo inicial
 
-                while (!Thread.currentThread().isInterrupted() && !stopSOCWorker) {
-
+                while ((!Thread.currentThread().isInterrupted() && !stopSOCWorker) && MainActivity.connected) {
                     t_new = getTime();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        stopSOCWorker = true;
+                    }
+
                     i_new = Math.pow(getCurrent(), k);
+                    if (i_new == 0){
+                        //carga = 17,958*tensão^4-943,55*tensão^3+18505*tensão^2+160528*tensão+519755
+                            //carga = -41,275*tensao²+1113*tensao-7400,7
+                                    i_average = 0;
+                                    t_total = 0;
+                                    soc_zero = -41.2751*Math.pow(fragment_communication.Voltage1,2)+1113*fragment_communication.Voltage1-7400.7;
+                                    systemEnergy = NominalVoltage*Q*(soc);
+                    }
 
                     double systemEnergy_old = systemEnergy;
 
@@ -103,11 +121,11 @@ public class StateOfCharge {
                     // computa a energia e sua derivada
                     //systemEnergy = NominalVoltage*i_new*(t_new - t_old);
                     systemEnergy = NominalVoltage*Q*(soc);
+                    dsystemEnergy = (systemEnergy - systemEnergy_old)/(t_new - t_old);
 
                     systemPower = NominalVoltage*i_new;
                     // ou alternativamente: systemEnergy = NominalVoltage*((soc_zero - soc_min)*Q - Qi);
 
-                    dsystemEnergy = (systemEnergy - systemEnergy_old)/(t_new - t_old);
 
                     //simpleMovingAverage(dsystemEnergy_hist, dsystemEnergy, dsystemEnergy_mean);
 
@@ -119,33 +137,17 @@ public class StateOfCharge {
 
                 }
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    stopSOCWorker = true;
-                }
             }
 
             // função com os dados do teste do acionamento
             private double getTime() {
                 Calendar rightNow = Calendar.getInstance();
-                // System.nanoTime()*1000000000/(60/60);
-                // System.currentTimeMillis()*1000/(60*60);
+
                 int hour = rightNow.get(Calendar.HOUR_OF_DAY);
                 int min = rightNow.get(Calendar.MINUTE);
                 int sec = rightNow.get(Calendar.SECOND);
-//                if (test_iterator == 0)
-//                    test_time = 1; // minutos
-//                else if (test_iterator == 9)
-//                    test_time = 42;
-//                else
-//                    test_time = 5* test_iterator;
-//
-//                System.out.println("iteration: " + test_iterator + "; " + "Consuming " + -dsystemEnergy + " W; remaining " + t_remain + " hours to " + soc_min*100 + "% of remaining energy( " + systemEnergy + " Wh ).");
-//                test_iterator++;
-//                return test_time / 60; // horas
-                return (hour + min/60 + sec /60/60);//retorno em horas
+
+                return (hour + min/60 + sec /(60*60));//retorno em horas
             }
 
             // função com os dados do teste do acionamento
@@ -155,31 +157,6 @@ public class StateOfCharge {
                     stopSOCWorker = true;
                 }
 
-//                test_current = 1.9;
-//                if (test_iterator == 0)
-//                    test_current = 11.39;
-//                else if (test_iterator == 1)
-//                    test_current = 11.37;
-//                else if (test_iterator == 2)
-//                    test_current = 28.17;
-//                else if (test_iterator == 3)
-//                    test_current = 27.82;
-//                else if (test_iterator == 4)
-//                    test_current = 42.5;
-//                else if (test_iterator == 5)
-//                    test_current = 41.45;
-//                else if (test_iterator == 6)
-//                    test_current = 59.8;
-//                else if (test_iterator == 7)
-//                    test_current = 54.1;
-//                else if (test_iterator == 8)
-//                    test_current = 42.77;
-//                else if (test_iterator == 9) {
-//                    test_current = 39.33;
-//
-//                }
-//
-//                return test_current;
                 return fragment_communication.Current2 - fragment_communication.Current1;//A diferença entre as correntes
             }
         });

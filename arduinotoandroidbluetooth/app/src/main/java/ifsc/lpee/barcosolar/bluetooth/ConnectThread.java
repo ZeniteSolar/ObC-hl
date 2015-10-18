@@ -69,7 +69,8 @@ public class ConnectThread extends Thread {
 //		mfragment_communication.beginListenForData(myBluetoothAdapter,
 //				mmSocket, mmDevice, mmOutputStream, mmInputStream);
 
-        MainActivity.flag1=1;
+        MainActivity.connected=true;
+
 
         //todo!
 		//Log.d("Bebug1", "Device: " + MainActivity.mmSocket);
@@ -78,6 +79,7 @@ public class ConnectThread extends Thread {
 
 	/** Will cancel an in-progress connection, and close the socket */
 	public void cancel() {
+		MainActivity.connected = false;
 		try {
             MainActivity.mmSocket.close();
 		} catch (IOException e) {

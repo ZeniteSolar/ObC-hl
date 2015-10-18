@@ -22,7 +22,7 @@
     <string name="Celsius">[°C]</string>
     <string name="Current:Bat:IN">Pan. Cur.:</string>
     <string name="Current:Bat:OUT">Bat. Cur.:</string>
-    <string name="DefaultTitle">Teste do Logger</string>
+    <string name="DefaultTitle">Teste no LIC</string>
     <string name="HidePairedList">Hide devices available to connect</string>
     <string name="List">List Devices</string>
     <string name="Off">Off</string>
@@ -30,6 +30,7 @@
     <string name="On">On</string>
     <string name="Power">Potência:</string>
     <string name="PowerRate">Taxa da Potência:</string>
+    <string name="SOC">Carga:</string>
     <string name="ShowPairedList">Show devices available to connect</string>
     <string name="SwitchName">Logger</string>
     <string name="SystemStatus">Status do sistema:</string>
@@ -37,7 +38,7 @@
     <string name="Temp.Motor">Temp. Motor:</string>
     <string name="Time">[min]</string>
     <string name="Unknown">_</string>
-    <string name="Vel">[Km/h]</string>
+    <string name="Vel">[km/h]</string>
     <string name="Velocity">Velocidade:</string>
     <string name="Visible">Get Visible</string>
     <string name="Voltage.Bat">Tensão:</string>
@@ -50,6 +51,7 @@
     <string name="loggerbutton">Ok</string>
     <string name="navigation_drawer_close">Fechar menu</string>
     <string name="navigation_drawer_open">Abrir menu</string>
+    <string name="percent">[%]</string>
     <string name="title_section1">Comunicação</string>
     <string name="title_section2">Configuração Bluetooth</string>
     <string name="title_section3">Modo de Operação</string>

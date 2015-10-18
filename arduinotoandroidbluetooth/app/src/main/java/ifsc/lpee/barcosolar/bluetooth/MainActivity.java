@@ -52,16 +52,16 @@ import java.util.Locale;
 import java.util.Set;
 
 public class MainActivity extends Activity implements
-		NavigationDrawerFragment.NavigationDrawerCallbacks{
+		NavigationDrawerFragment.NavigationDrawerCallbacks,IBaseGpsListener{
 
 	public static BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 	public static BluetoothSocket mmSocket;
 	public static BluetoothDevice mmDevice;
 	public static OutputStream mmOutputStream;
 	public static InputStream mmInputStream;
-	public static int flag1;
+	public static boolean connected;
 
-	public String mTitle;
+	public static String mTitle;
 	public static boolean log = false;
 
 	public static String titulo = "Default";
@@ -99,6 +99,18 @@ public class MainActivity extends Activity implements
 		fragmentManager.beginTransaction().replace(R.id.container, fragment)
 				.commit();
 
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,100, 0, this);
+
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,100, 0, this);
+		locationManager.removeUpdates(this);
 	}
 
 	// http://stackoverflow.com/questions/20638967/how-to-change-fragments-using-android-navigation-drawer
@@ -259,6 +271,49 @@ public boolean onCreateOptionsMenu(Menu menu) {
 	}
 
 
+	private void updateSpeed(Location location){
+//		//TODO Auto-generated method stub
+		if (MainActivity.mTitle.equals(getString(R.string.title_section1))) {
+			Log.d("updateSpeed:", "MainActivity.mTitle.equals(getString(R.string.title_section1) = " + MainActivity.mTitle.equals(getString(R.string.title_section1)));
+			TextView tvVelocity = (TextView) findViewById(R.id.tvVelocity);
+			String strCurrentSpeed = "_";
+			if(location!=null) {
+				fragment_communication.nCurrentSpeed = location.getSpeed() * 3.6f;//km/h
+				fragment_communication.nCurrentLat = location.getLatitude();
+				fragment_communication.nCurrentLong = location.getLongitude();
+				strCurrentSpeed = String.format("%3.1f",fragment_communication.nCurrentSpeed);
+			}
+			tvVelocity.setText(strCurrentSpeed);
+		}
+	}
+
+	@Override
+		public void onProviderDisabled(String provider) {
+		this.updateSpeed(null);
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+
+	}
+
+	@Override
+	public void onGpsStatusChanged(int event) {
+
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {//quando a localização mudar
+		//TODO Auto-generated method stub
+		if(location != null){
+			this.updateSpeed(location);
+		}
+	}
 
 
 }

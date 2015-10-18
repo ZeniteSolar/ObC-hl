@@ -80,26 +80,65 @@ public class Logger {
     }
 
     public static void logger() {
-        Log.d("Marcio","Logger: Logger");
+        Log.d("Marcio", "Logger: Logger");
         Thread thLogger = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                String content;
+                String dirName = "Zenite";
+                File dir = mkDir(dirName);
+                if(!dir.isDirectory()){
+                    return;
+                }
+                Calendar rightNow = Calendar.getInstance();
+                int day = rightNow.get(Calendar.DAY_OF_MONTH);
+                int month = rightNow.get(Calendar.MONTH) + 1;//retorna um a menos que o mes atual
+                int year = rightNow.get(Calendar.YEAR);
+                content =
+                        String.format("%02d", day) + "_" +
+                                String.format("%02d", month)  + "_" +
+                                String.format("%02d", year)  + "," +
+                                "Temperature1"  + "," +
+                                "Temperature2"  + "," +
+                                "Current1"      + "," +
+                                "Current2"      + "," +
+                                "Voltage1"      + "," +
+                                "Velocidade"    + "," +
+                                "Latitude"      + "," +
+                                "Longitude"     + "," +
+                                "\n";
+                String fileName =
+                        MainActivity.titulo          + " " +
+                                String.format("%02d", day)   + "_" +
+                                String.format("%02d", month) + "_" +
+                                String.format("%02d", year ) + ".csv";
+                if(!isExternalStorageWritable()){
+                    Log.e("Logger", "Error: Directory isn't writable");
+                }
+                Log.e("Logger", "Storage is writable");
+
+                if(!thereIsFreeSpace(dir)){
+                    Log.e("Logger", "Error: There is no free space");
+                    return;
+                }
+                Log.e("Logger", "There is free space");
+
+                if(!saveFile(dir.toString(), fileName, content)){
+                    Log.e("Logger", "Error: can't save file");
+                    return;
+                }
+
+                Log.e("Logger", "File saved at " + dir.toString() + "/" + fileName);
+
+
                 while(MainActivity.log) {
-                    Calendar rightNow = Calendar.getInstance();
-                    int day = rightNow.get(Calendar.DAY_OF_MONTH);
-                    int month = rightNow.get(Calendar.MONTH) + 1;//retorna um a menos que o mes atual
-                    int year = rightNow.get(Calendar.YEAR);
+                    rightNow = Calendar.getInstance();//tem que ti im while?
                     int hour = rightNow.get(Calendar.HOUR_OF_DAY);
                     int min = rightNow.get(Calendar.MINUTE);
                     int sec = rightNow.get(Calendar.SECOND);
                     int msec = rightNow.get(Calendar.MILLISECOND);
-                    String dirName = "Zenite";
-                    String fileName =
-                            MainActivity.titulo          + " " +
-                            String.format("%02d", day)   + "_" +
-                            String.format("%02d", month) + "_" +
-                            String.format("%02d", year ) + ".csv";
-                    String content =
+                    content =
                             String.format("%02d", hour) + ":" +
                             String.format("%02d", min)  + ":" +
                             String.format("%02d", sec)  + ":" +
@@ -110,18 +149,9 @@ public class Logger {
                             String.format(Locale.US, "%3.1f",fragment_communication.Current2)      + "," +
                             String.format(Locale.US, "%3.1f",fragment_communication.Voltage1)      + "," +
                             String.format(Locale.US, "%3.1f",fragment_communication.nCurrentSpeed) + "," +
+                            Double.toString(fragment_communication.nCurrentLat)                    + "," +
+                            Double.toString(fragment_communication.nCurrentLong)                   + "," +
                             "\n";
-
-                    if(!isExternalStorageWritable()){
-                        Log.e("Logger", "Error: Directory isn't writable");
-                        break;
-                    }
-                    Log.e("Logger", "Storage is writable");
-
-                    File dir = mkDir(dirName);
-                    if(!dir.isDirectory()){
-                        break;
-                    }
 
                     if(!thereIsFreeSpace(dir)){
                         Log.e("Logger", "Error: There is no free space");
@@ -133,6 +163,7 @@ public class Logger {
                         Log.e("Logger", "Error: can't save file");
                         break;
                     }
+
                     Log.e("Logger", "File saved at " + dir.toString() + "/" + fileName);
 
                     try {
