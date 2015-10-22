@@ -95,9 +95,7 @@ public class fragment_bluetooth extends Fragment implements OnClickListener {
 						String address = info.substring(info.length() - 17);
 						MainActivity.mmDevice = MainActivity.mBluetoothAdapter.getRemoteDevice(address);
 
-						Toast.makeText(getActivity(), address,
-								Toast.LENGTH_SHORT).show();
-
+						Toast.makeText(getActivity(), address, Toast.LENGTH_SHORT).show();
 						connect();
 
 					}
@@ -108,37 +106,35 @@ public class fragment_bluetooth extends Fragment implements OnClickListener {
 		// Start the thread to connect with the given device
 		ConnectThread mConnectThread = new ConnectThread(MainActivity.mmDevice);
 		mConnectThread.run();
+//TODO: verificar se a conexao foi completa
 
 		changeToCommunicationFragment();
+		StateOfCharge.SOC();//liga o monitoramento da carga da bateria
+
 	}
 
+	// Replaces the current fragment to fragment_communication
 	public void changeToCommunicationFragment() {
-		// TODO:
-		// - VERIFICAR SE A CONEXÃO FOI SUCESSO, SÓ ENTÃO MUDAR O FRAGMENT!
-		// - mudar o item selecionado no menu;
 
-		// Replaces the current fragment to fragment_communication
-//		Fragment fragment = new fragment_communication();
-//		// update the main content by replacing fragments
-//		FragmentManager fragmentManager = getFragmentManager();
-//		fragmentManager.beginTransaction().replace(R.id.container, fragment)
-//				.commit();
+		Fragment fragment = new fragment_communication();
+		// update the main content by replacing fragments
+		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager.beginTransaction().replace(R.id.container, fragment)
+				.commit();
 	}
 
-	//
+
 	// All setOnClickListener should be initialized here
-	//
 	public void setListners() {
 		tbShowPairedList.setOnClickListener(this);
 		swBluetoothStatus.setOnClickListener(this);
 		btBluetoothGetVisible.setOnClickListener(this);
 	}
 
+	// Verifies if the device supports blueTooth and turn visible or
+	// invisible the blueTooth controls.
 	public void verifyBluetooth() {
-		//
-		// Verifies if the device supports blueTooth and turn visible or
-		// invisible the blueTooth controls.
-		//
+
 		if (MainActivity.mBluetoothAdapter == null) {
 			Toast.makeText(getActivity(),
 					getString(R.string.BluetoothDeviceDoenstSupport),
@@ -198,7 +194,7 @@ public class fragment_bluetooth extends Fragment implements OnClickListener {
 		swBluetoothStatus.setChecked(true);
 		btBluetoothGetVisible.setVisibility(View.VISIBLE);
 		tbShowPairedList.setVisibility(View.VISIBLE);
-		// lvBluetoothPairedDevicesList.setVisibility(View.VISIBLE);
+
 		MainActivity.mBluetoothAdapter.enable(); // forces enable without request
 		Toast.makeText(getActivity(), getString(R.string.BluetoothTurnedOn),
 				Toast.LENGTH_SHORT).show(); // Shows message for the
@@ -209,7 +205,7 @@ public class fragment_bluetooth extends Fragment implements OnClickListener {
 		swBluetoothStatus.setChecked(false);
 		btBluetoothGetVisible.setVisibility(View.INVISIBLE);
 		tbShowPairedList.setVisibility(View.INVISIBLE);
-		// lvBluetoothPairedDevicesList.setVisibility(View.INVISIBLE);
+
 		MainActivity.mBluetoothAdapter.disable(); // forces disable without request
 		Toast.makeText(getActivity(), getString(R.string.BluetoothTurnedOff),
 				Toast.LENGTH_SHORT).show(); // Shows message for the

@@ -47,7 +47,7 @@
     <string name="action_example">Configurações Bluetooth</string>
     <string name="action_settings">Comunicação</string>
     <string name="app_name">Zênite Solar</string>
-    <string name="logger">Insira o título.(MAX 30)</string>
+    <string name="logger">Insira o título.(MÁX 30)</string>
     <string name="loggerbutton">Ok</string>
     <string name="navigation_drawer_close">Fechar menu</string>
     <string name="navigation_drawer_open">Abrir menu</string>

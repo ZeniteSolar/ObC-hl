@@ -226,7 +226,6 @@ public class NavigationDrawerFragment extends Fragment {
 
 	@Override
 	public void onAttach(Activity activity) {
-		Log.d("Marcio", "NavigationDrawerFragment: onAttach");
 		super.onAttach(activity);
 		try {
 			mCallbacks = (NavigationDrawerCallbacks) activity;
@@ -305,7 +304,7 @@ public class NavigationDrawerFragment extends Fragment {
 	 * Callbacks interface that all activities using this fragment must
 	 * implement.
 	 */
-	public static interface NavigationDrawerCallbacks {
+	public interface NavigationDrawerCallbacks {
 		/**
 		 * Called when an item in the navigation drawer is selected.
 		 */

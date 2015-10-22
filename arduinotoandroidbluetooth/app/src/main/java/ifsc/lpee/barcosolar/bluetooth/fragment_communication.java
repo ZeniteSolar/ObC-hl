@@ -13,64 +13,39 @@
 package ifsc.lpee.barcosolar.bluetooth;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
-import java.util.Formatter;
-import java.util.Locale;
 
 import android.app.Fragment;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class fragment_communication extends Fragment {
 
+	RelativeLayout mainScreen;
+	RelativeLayout RLTensao;
 	TextView tvTemperatureBattery;
 	TextView tvTemperatureMotor;
 	TextView tvVoltageBattery;
 	TextView tvVelocity;
-	//	TextView tvCurrentBatteryIn;
-//	TextView tvCurrentBatteryOut;
-//	TextView tvPotIn;
-//	TextView tvPotSaida;
 	TextView tvPot;
 	TextView tvSOC;
-	TextView tvPowerRate;
-	TextView tvSystemStatus;
 	TextView tvAutonomy;
 
 	Switch switch1;
 
-	public static float Temperature1 = 0, Temperature2 = 0 , Voltage1 = 0, Current1= 0, Current2 = 0, nCurrentSpeed = 0;
-	public static double nCurrentLat = 0, nCurrentLong = 0;
-
-//	public BluetoothAdapter mBluetoothAdapter = new MainActivity().mBluetoothAdapter;
-//	public BluetoothSocket mmSocket = new MainActivity().mmSocket;
-//	public BluetoothDevice mmDevice = new MainActivity().mmDevice;
-//	public OutputStream mmOutputStream = new MainActivity().mmOutputStream;
-//	public InputStream mmInputStream = new MainActivity().mmInputStream;
+	public static float Temperature1 = 0, Temperature2 = 60 , Voltage1 = 24, Current1= 0, Current2 = 110 , Speed = 0;
+	public static double Latitude = 0, Longitude = 0;
 
 	Thread workerThread;
-	//	byte[] readBuffer;
+
 	int readBufferPosition;
 	volatile boolean stopWorker;
 
@@ -81,10 +56,8 @@ public class fragment_communication extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_communication, container,
 				false);
 
-		//setListners();
-
-		// Intent i = getActivity().getIntent();
-
+		mainScreen = (RelativeLayout) v.findViewById(R.id.MainScreen);
+		RLTensao = (RelativeLayout) v.findViewById(R.id.RLTensao);
 		tvPot = (TextView) v.findViewById(R.id.tvPot);
 		tvSOC = (TextView) v.findViewById(R.id.tvSOC);
 		tvTemperatureBattery = (TextView) v.findViewById(R.id.tvTemperatureBattery);
@@ -99,6 +72,9 @@ public class fragment_communication extends Fragment {
 		if(MainActivity.connected) {
 			beginListenForData();
 		}
+
+		updateTextView(tvSOC,   String.format("%1.0f", StateOfCharge.soc*100));
+
 		return v;
 	}
 
@@ -112,31 +88,19 @@ public class fragment_communication extends Fragment {
 					@Override
 					public void run() {
 						textView.setText(data);
-						if(Temperature2 > 69 | Temperature1 > 69){//temperatura limite é 70
-							Toast.makeText(getActivity() , "Temperatura muito alta",Toast.LENGTH_LONG).show();
-							textView.setTextColor(Color.RED);
-						}
-						//Log.d("Escrito na tela -> ", data + "  on  " + textView);
+						mainScreen.setBackgroundColor(
+								(Temperature1 > 70 ||Temperature2 > 70 ||
+										StateOfCharge.soc <= StateOfCharge.soc_min) ?
+										Color.RED : Color.WHITE);
 					}
 				});
-				try {
-					Thread.sleep(1000);
-				}
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 			}
 		});
 		th.start();
 	}
 
 	void beginListenForData() {
-		//Log.d("recebido -> ", "BluetoothAdapter" + ": " + MainActivity.mBluetoothAdapter);
-		//Log.d("recebido -> ", "BluetoothSocket" + ": " + MainActivity.mmSocket);
-		//Log.d("recebido -> ", "BluetoothDevice" + ": " + MainActivity.mmDevice);
-		//Log.d("recebido -> ", "OutputStream" + ": " + MainActivity.mmOutputStream);
-		//Log.d("recebido -> ", "InputStream" + ": " + MainActivity.mmInputStream);
-//		final Handler handler = new Handler();
+
 		stopWorker = false;
 		readBufferPosition = 0;
 
@@ -154,73 +118,52 @@ public class fragment_communication extends Fragment {
 						switch (flag) {
 							case 0: // Idle
 								MainActivity.mmOutputStream.write(0x01);                            //envia o ACK
-								//Log.d("enviado -> ", " ACK ");
 								if (MainActivity.mmInputStream.available() > 0) {                   //se o buffer esta disponivel
 									byte receivedByte1 = (byte) MainActivity.mmInputStream.read();  //recebe byte1
 									if (receivedByte1 == 0x01) {                                    //se byte1 for de inicio ACK
-										//Log.d("recebido -> ", " ACK ");
 										if (MainActivity.mmInputStream.available() > 0) {           // se buffer esta disponivel
 											MainActivity.mmInputStream.read(packetBytes, 0, 7);     //le packetbytes (7)
-											//Log.d("recebido -> ", " packetBytes[0]: "
-											//+ String.format("%20x", packetBytes[0]));
-											//Log.d("recebido -> ", " packetBytes[1]: "
-											//+ String.format("%20x", packetBytes[1]));
-											//Log.d("recebido -> ", " packetBytes[2]: "
-											//+ String.format("%20x", packetBytes[2]));
-											//Log.d("recebido -> ", " packetBytes[3]: "
-//													+ String.format("%20x", packetBytes[3]));
-											//Log.d("recebido -> ", " packetBytes[4]: "
-//													+ String.format("%20x", packetBytes[4]));
-											//Log.d("recebido -> ", " packetBytes[5]: "
-//													+ String.format("%20x", packetBytes[5]));
-											//Log.d("recebido -> ", " packetBytes[6]: "
-//													+ String.format("%20x", packetBytes[6]));
 										}
 										flag = 1;
 									}
 									else
 										while(MainActivity.mmInputStream.available() > 0) {			//esvaziar buffer
-											receivedByte1 = (byte) MainActivity.mmInputStream.read();
-											//Log.d("->","Buffer Limpo");
+											MainActivity.mmInputStream.read();
 										}
 								}
 								break;
 							case 1:
 								flag = 0;
 								if (packetBytes[0] == 0x02 && packetBytes[6] == 0x03) {
-									//Log.d("->", " VALIDADO ");
 									sensor = packetBytes[1];
-									//Log.d("Sensor = ",String.format("%20x", sensor));
 									switch (sensor) {                                                    //muda o valor dos sensores
 										case (byte) 0xA0:
 											Temperature1 = fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6));
-											//Log.d("->", " Atualiza T1 ");
 											updateTextView(tvTemperatureBattery, String.format("%3.1f",Temperature1));
 											break;
 										case (byte) 0xA1:
 											Temperature2 = fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6));
 											updateTextView(tvTemperatureMotor, String.format("%3.1f", Temperature2));
-
-
 											break;
 										case (byte) 0xA2:
-											Voltage1 = fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6));
-											updateTextView(tvVoltageBattery, String.format("%3.1f", Voltage1));
+											String str = "_";
+											Voltage1 = (float) (1.0542105263*fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6)) + 0.1731578947);//correcao do valor obtido
+											if (Voltage1 > 8){
+												str = String.format("%3.1f", Voltage1);
+											}
+											updateTextView(tvVoltageBattery, str);
 											break;
 										case (byte) 0xA3:
 											Current1 = fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6));
-//											updateTextView(tvCurrentBatteryIn,  Float.toString(Current1));
 											break;
 										case (byte) 0xA4:
 											Current2 = fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6));
-//											updateTextView(tvCurrentBatteryOut,  Float.toString(Current2));
-//											updateTextView(tvPotIn,   Float.toString(Current1*Voltage1));
-//											updateTextView(tvPotSaida,   Float.toString(Current2*Voltage1));
 											updateTextView(tvPot,   String.format("%2.0f", Current1 * Voltage1 - Current2 * Voltage1));
-											//updateTextView(tvSOC,   String.format("%3.1f", StateOfCharge.soc));
+											updateTextView(tvSOC,   String.format("%1.0f", StateOfCharge.soc));
+											updateTextView(tvAutonomy,   String.format("%1.0f", StateOfCharge.t_remain));
+
 											break;
 										default:
-											//Log.d("-> ", "DEFAUL  sensor");
 											break;
 									}
 								}
@@ -234,13 +177,10 @@ public class fragment_communication extends Fragment {
 								packetBytes[6] = 0;
 								break;
 							default:
-								//Log.d("-> ", "DEFAUL  flag"
-//										+ String.format("%20x", flag));
 								flag = 0;
 								break;
 						}
 					} catch (IOException ex) {
-						// TODO: handle exception
 						stopWorker = true;
 					}
 				}
@@ -252,38 +192,5 @@ public class fragment_communication extends Fragment {
 	private float fourBytesToFloat(byte[] packetBytes) {
 		return (ByteBuffer.wrap(packetBytes).order(ByteOrder.LITTLE_ENDIAN).getFloat());
 	}
-
-	/*
-        public static int fourBytesToUnsignedInt(byte[] packetBytes) {
-            byte a = packetBytes[0];
-            byte b = packetBytes[1];
-            byte c = packetBytes[2];
-            byte d = packetBytes[3];
-            return ((a << 24) | (b << 16) | (c << 8) | (d << 0));
-        }
-        public static int twoBytesToUnsignedInt(byte a, byte b) {
-            return ((a << 8) | (b & 0xFF));
-        }
-        public static int oneByteToUnsignedInt(byte a) {
-            return (a & 0xFF);
-        }
-        */
-
-//	public void setListners() {
-//		switch1.setOnClickListener(this);
-//	}
-
-//	@Override
-//	public void onClick(View v) {
-//		switch (v.getId()) {
-//			case R.id.switch1:
-//
-//				Toast.makeText(getActivity() , "Opção indisponível", Toast.LENGTH_SHORT)
-//						.show();
-//				break;
-//		}
-//
-//	}
-
 
 }

@@ -4,7 +4,8 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="#ffffffff"
-    android:gravity="bottom">
+    android:gravity="bottom"
+    android:id="@+id/MainScreen">
 
     <LinearLayout
         android:id="@+id/LinearLayout3"
@@ -379,7 +380,9 @@
         android:layout_centerHorizontal="true"
         android:onClick="TituloLoggerOnOff"
         android:text="@string/SwitchName"
-        android:textColor="#f00"/>
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:textSize="30sp"/>
 
     <RelativeLayout
         android:layout_width="500dp"

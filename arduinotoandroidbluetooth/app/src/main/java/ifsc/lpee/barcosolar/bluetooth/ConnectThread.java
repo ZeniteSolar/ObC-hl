@@ -1,26 +1,13 @@
 package ifsc.lpee.barcosolar.bluetooth;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.util.Log;
 
 public class ConnectThread extends Thread {
-	//OutputStream mmOutputStream;
-	//InputStream mmInputStream;
-
-    //public BluetoothAdapter mBluetoothAdapter = new MainActivity().mBluetoothAdapter;
-//    public BluetoothSocket mmSocket = new MainActivity().mmSocket;
-//    public BluetoothDevice mmDevice = new MainActivity().mmDevice;
-//    public OutputStream mmOutputStream = new MainActivity().mmOutputStream;
-//    public InputStream mmInputStream = new MainActivity().mmInputStream;
-
-    //public int flag1 = new MainActivity.flag1;
 
 	public static final UUID MY_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB"); // generic UUID
@@ -64,26 +51,8 @@ public class ConnectThread extends Thread {
 		}
 
 		// Do work to manage the connection (in a separate thread)
-
-//		fragment_communication mfragment_communication = new fragment_communication();
-//		mfragment_communication.beginListenForData(myBluetoothAdapter,
-//				mmSocket, mmDevice, mmOutputStream, mmInputStream);
-
         MainActivity.connected=true;
 
-
-        //todo!
-		//Log.d("Bebug1", "Device: " + MainActivity.mmSocket);
-
-	}
-
-	/** Will cancel an in-progress connection, and close the socket */
-	public void cancel() {
-		MainActivity.connected = false;
-		try {
-            MainActivity.mmSocket.close();
-		} catch (IOException e) {
-		}
 	}
 
 }

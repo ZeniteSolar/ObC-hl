@@ -38,9 +38,7 @@ public class Logger {
     /* Checks if external storage is available for read and write */
     public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state))
-            return true;
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
 
     /* makes a dir named dirName at user's public Documents directory
@@ -80,7 +78,6 @@ public class Logger {
     }
 
     public static void logger() {
-        Log.d("Marcio", "Logger: Logger");
         Thread thLogger = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -148,9 +145,9 @@ public class Logger {
                             String.format(Locale.US, "%3.1f",fragment_communication.Current1)      + "," +
                             String.format(Locale.US, "%3.1f",fragment_communication.Current2)      + "," +
                             String.format(Locale.US, "%3.1f",fragment_communication.Voltage1)      + "," +
-                            String.format(Locale.US, "%3.1f",fragment_communication.nCurrentSpeed) + "," +
-                            Double.toString(fragment_communication.nCurrentLat)                    + "," +
-                            Double.toString(fragment_communication.nCurrentLong)                   + "," +
+                            String.format(Locale.US, "%3.1f",fragment_communication.Speed) + "," +
+                            Double.toString(fragment_communication.Latitude)                    + "," +
+                            Double.toString(fragment_communication.Longitude)                   + "," +
                             "\n";
 
                     if(!thereIsFreeSpace(dir)){
