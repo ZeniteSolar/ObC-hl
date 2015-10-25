@@ -41,7 +41,7 @@ public class fragment_communication extends Fragment {
 
 	Switch switch1;
 
-	public static float Temperature1 = 0, Temperature2 = 60 , Voltage1 = 24, Current1= 0, Current2 = 110 , Speed = 0;
+	public static float Temperature1 = 0, Temperature2 = 0 , Voltage1 = 24, Current1= 0, Current2 = 0 , Speed = 0;
 	public static double Latitude = 0, Longitude = 0;
 
 	Thread workerThread;
@@ -159,10 +159,13 @@ public class fragment_communication extends Fragment {
 										case (byte) 0xA4:
 											Current2 = fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6));
 											updateTextView(tvPot,   String.format("%2.0f", Current1 * Voltage1 - Current2 * Voltage1));
-											updateTextView(tvSOC,   String.format("%1.0f", StateOfCharge.soc));
+											updateTextView(tvSOC,   String.format("%1.0f", 100 * StateOfCharge.soc));
 											updateTextView(tvAutonomy,   String.format("%1.0f", StateOfCharge.t_remain));
 
 											break;
+                                        case (byte) 0xA5:
+                                            //TODO: calcular e mostrar o DutyCycle do PWM. Maior que 4.1*1023/5 é 0% e 0 é 100%.
+                                            break;
 										default:
 											break;
 									}

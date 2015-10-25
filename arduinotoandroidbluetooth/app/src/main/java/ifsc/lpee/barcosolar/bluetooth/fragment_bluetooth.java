@@ -49,8 +49,7 @@ public class fragment_bluetooth extends Fragment implements OnClickListener {
 	private ToggleButton tbShowPairedList;
 	private ListView lvBluetoothPairedDevicesList;
 
-	private Set<BluetoothDevice> pairedDevices;
-	private ArrayAdapter<String> mArrayAdapter;
+    private ArrayAdapter<String> mArrayAdapter;
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -224,7 +223,7 @@ public class fragment_bluetooth extends Fragment implements OnClickListener {
 					Toast.LENGTH_SHORT).show();
 
 			// Listing paired devices
-			pairedDevices = MainActivity.mBluetoothAdapter.getBondedDevices();
+            Set<BluetoothDevice> pairedDevices = MainActivity.mBluetoothAdapter.getBondedDevices();
 
 			// Loop through paired devices
 			for (BluetoothDevice device : pairedDevices) {

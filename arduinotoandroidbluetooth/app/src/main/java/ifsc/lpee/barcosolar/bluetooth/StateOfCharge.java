@@ -54,7 +54,7 @@ public class StateOfCharge {
                 t_old = getTime();//tempo inicial
                 while ((!Thread.currentThread().isInterrupted() && !stopSOCWorker) /*&& MainActivity.connected*/) {
                     t_new = getTime();
-                    Log.d("t_new", String.format("%3.1f",t_new));
+                    Log.d("t_new", String.format("%3.1f", t_new));
                     i_new = Math.pow(getCurrent(), k);
                     Log.d("i_new", String.format("%3.1f", i_new));
 
