@@ -85,7 +85,7 @@ public class StateOfCharge {
                     i_old = i_new;
 
                     try {
-                        Thread.sleep(3000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         stopSOCWorker = true;

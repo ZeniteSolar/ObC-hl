@@ -202,6 +202,49 @@
             android:layout_height="wrap_content"
             android:paddingLeft="50sp"
             android:visibility="visible"
+            android:id="@+id/RLdutyCicle">
+
+            <TextView
+                android:id="@+id/TextView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvDutycycle"
+                android:layout_alignBottom="@+id/tvDutycycle"
+                android:layout_toRightOf="@+id/tvDutycycle"
+                android:text="[%]"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace"
+                android:textColor="#ff000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/TextView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/DutyCicle"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:typeface="monospace"
+                android:textColor="@android:color/black"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/tvDutycycle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/TextView25"
+                android:text="@string/Unknown"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/txtdimen1"
+                android:typeface="monospace"
+                android:textColor="#ff000000" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50sp"
+            android:visibility="visible"
             android:id="@+id/RLTensao">
 
             <TextView
@@ -239,6 +282,7 @@
                 android:typeface="monospace"
                 android:textColor="#ff000000" />
         </RelativeLayout>
+
 
         <RelativeLayout
             android:layout_width="wrap_content"

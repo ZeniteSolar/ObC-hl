@@ -27,15 +27,15 @@
 	<string name="HidePairedList">Hide devices available to connect</string>
 	
 	<!--  fragment_communication -->
-	<string name="Temp.Motor">Temp. Motor:</string>
-	<string name="Temp.Eletronica">Temp. Elet.:</string>
+	<string name="Temp.Motor">T. Motor:</string>
+	<string name="Temp.Eletronica">T. Elet.:</string>
 	<string name="Voltage.Bat">Tensão:</string>
 	<string name="Current:Bat:IN">Pan. Cur.:</string>
 	<string name="Current:Bat:OUT">Bat. Cur.:</string>
 	<string name="Velocity">Velocidade:</string>
 	<string name="Autonomy">Autonomia:</string>
 	<string name="PowerRate">Taxa da Potência:</string>
-	<string name="Power">Potência:</string>
+	<string name="Power">Pot.:</string>
 	<string name="SystemStatus">Status do sistema:</string>
 	<string name="Unknown">_</string>
 	<string name="Celsius">[°C]</string>
@@ -51,4 +51,5 @@
 	<string name="OkButton">OK</string>
 	<string name="percent">[%]</string>
 	<string name="SOC">Carga:</string>
+	<string name="DutyCicle">D.C.</string>
 </resources>

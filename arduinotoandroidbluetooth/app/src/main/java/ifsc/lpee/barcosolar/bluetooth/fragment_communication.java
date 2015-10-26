@@ -38,10 +38,13 @@ public class fragment_communication extends Fragment {
 	TextView tvPot;
 	TextView tvSOC;
 	TextView tvAutonomy;
+	TextView tvDutyCycle;
+
 
 	Switch switch1;
 
 	public static float Temperature1 = 0, Temperature2 = 60 , Voltage1 = 24, Current1= 0, Current2 = 110 , Speed = 0;
+	public static float duttyCycle;
 	public static double Latitude = 0, Longitude = 0;
 
 	Thread workerThread;
@@ -65,6 +68,7 @@ public class fragment_communication extends Fragment {
 		tvVoltageBattery = (TextView) v.findViewById(R.id.tvVoltageBattery);
 		tvVelocity = (TextView) v.findViewById(R.id.tvVelocity);
 		tvAutonomy = (TextView) v.findViewById(R.id.tvAutonomy);
+		tvDutyCycle = (TextView) v.findViewById(R.id.tvDutycycle);
 		switch1 = (Switch) v.findViewById(R.id.switch1);
 
 		switch1.setChecked(MainActivity.log);
@@ -163,6 +167,11 @@ public class fragment_communication extends Fragment {
 											updateTextView(tvAutonomy,   String.format("%1.0f", StateOfCharge.t_remain));
 
 											break;
+										case (byte) 0xA5:
+											duttyCycle = 1f - fourBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 6))/209f;
+											updateTextView(tvDutyCycle,   String.format("%1.0f", StateOfCharge.t_remain));
+
+											break;
 										default:
 											break;
 									}
@@ -191,6 +200,14 @@ public class fragment_communication extends Fragment {
 
 	private float fourBytesToFloat(byte[] packetBytes) {
 		return (ByteBuffer.wrap(packetBytes).order(ByteOrder.LITTLE_ENDIAN).getFloat());
+	}
+
+	public static int fourBytesToUnsignedInt(byte[] packetBytes) {
+		byte a = packetBytes[0];
+		byte b = packetBytes[1];
+		byte c = packetBytes[2];
+		byte d = packetBytes[3];
+		return ((a << 24) | (b << 16) | (c << 8) | (d << 0));
 	}
 
 }
