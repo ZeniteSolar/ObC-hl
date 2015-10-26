@@ -21,6 +21,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,9 +73,13 @@ public class MainActivity extends Activity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,100, 0, this);
-		locationManager.removeUpdates(this);
+        //TODO: salvar SOC atual.
+        Configurations.storeSOCConfigs();
+
+        //TODO: verificar se o gps ('local') esta ligado, caso contrario as linhas abaixo bugam o software
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,100, 0, this);
+        locationManager.removeUpdates(this);
 	}
 
 	@Override

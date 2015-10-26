@@ -9,7 +9,7 @@ import java.util.Calendar;
  */
 public class StateOfCharge {
 
-    public static double
+    public static double //TODO: mudar variaveis para tipos mais otimizados.
             i_new = 0,
             i_old = 0,
             t_new = 0,
@@ -30,7 +30,7 @@ public class StateOfCharge {
             R2 = 1.1,
             C2 = 27.5;
 
-    public static int NominalVoltage = 24;
+    public static float NominalVoltage = 24.0f;
     public static boolean 	stopSOCWorker = false;
 
     //calcula a constante de Peukert
@@ -43,42 +43,51 @@ public class StateOfCharge {
         //todo
         Thread worker = new Thread(new Runnable() {
             public void run() {
-
                 k = peukertConstant(C1, R1, C2, R2);
                 Q = R1 * Math.pow((C1 / R1), k);
                 //carga = 17,958*tensao^4-943,55*tensao^3+18505*tensao^2+160528*tensao+519755
                 //carga = -41,275*tensao²+1113*tensao-7400,7
-                soc_zero = 1;//-41.2751*Math.pow(fragment_communication.Voltage1,2)+1113*fragment_communication.Voltage1-7400.7;
+
+                //TODO: criar botão, menu ou tela para calcular SOC a partir da tensao de circuito aberto, criar botao para atualizar o soc atual com o retorno deste calculo
+
+                //TODO: carregar SOC de arquivo salvo anteriormente.
+                //soc_zero = 1;//-41.2751*Math.pow(fragment_communication.Voltage1,2)+1113*fragment_communication.Voltage1-7400.7;
+                if(!Configurations.restoreSOCConfigs()){
+                    Log.e("SOC", "Error: can't load configs file, maybe it isn't created yet. It is created when this app is destroyed.");
+                    soc_zero = 1;
+                    // TODO: sugerir para o usuario utilizar a ferramenta para calcular o SOC atraves da tensao de circuito aberto, ou editar o arquivo de configuracao manualmente
+                }
+
                 soc = soc_zero;
                 systemEnergy = NominalVoltage*Q*(soc_zero);
                 t_old = getTime();//tempo inicial
                 while ((!Thread.currentThread().isInterrupted() && !stopSOCWorker) /*&& MainActivity.connected*/) {
                     t_new = getTime();
-                    Log.d("t_new", String.format("%3.1f", t_new));
+                    Log.d("SOC", "t_new: " + String.format("%3.1f", t_new));
                     i_new = Math.pow(getCurrent(), k);
-                    Log.d("i_new", String.format("%3.1f", i_new));
+                    Log.d("SOC", "i_new: " + String.format("%3.1f", i_new));
 
 
                     // integral por soma trapezoidal
                     Qi += 0.5 * (i_new + i_old) * (t_new - t_old);
-                    Log.d("Qi", String.format("%3.1f", Qi));
+                    Log.d("SOC", "Qi: " + String.format("%3.1f", Qi));
 
                     t_total += (t_new - t_old);
-                    Log.d("t_total", String.format("%3.1f", t_total));
+                    Log.d("SOC", "t_total: " + String.format("%3.1f", t_total));
 
 
                     soc = soc_zero - Qi / Q;
-                    Log.d("SOC", String.format("%3.1f",soc*100) +  " %");
+                    Log.d("SOC", "SOC: " + String.format("%3.1f",soc*100) +  " %");
 
                     // computa a energia e sua derivada
                     //systemEnergy = NominalVoltage*i_new*(t_new - t_old);
                     double systemEnergy_old = systemEnergy;
                     systemEnergy = NominalVoltage*Q*(soc);
                     dsystemEnergy = (systemEnergy - systemEnergy_old)/(t_new - t_old);
-                    Log.d("dsystemEnergy",String.format("%3.2f", dsystemEnergy) + " w");
+                    Log.d("SOC", "dsystemEnergy: " + String.format("%3.2f", dsystemEnergy) + " w");
 
                     t_remain =  2*Q*NominalVoltage*(soc_min - soc)/dsystemEnergy;
-                    Log.d("Autonomia",String.format("%3.2f", t_remain) + " h");
+                    Log.d("SOC", "Autonomia: " + String.format("%3.2f", t_remain) + " h");
 
                     // recicla
                     t_old = t_new;
@@ -100,11 +109,11 @@ public class StateOfCharge {
                 Calendar rightNow = Calendar.getInstance();
 
                 int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-                Log.d("hour", String.format("%1d",hour));
+                Log.d("SOC", "hour: " + String.format("%1d",hour));
                 int min = rightNow.get(Calendar.MINUTE);
-                Log.d("min", String.format("%1d",min));
+                Log.d("SOC", "min: " + String.format("%1d",min));
                 int sec = rightNow.get(Calendar.SECOND);
-                Log.d("sec", String.format("%1d",sec));
+                Log.d("SOC", "sec: " + String.format("%1d",sec));
 //todo: para teste
                 return (hour + min/60. + sec /(60*60.));//retorno em horas
             }
@@ -115,5 +124,10 @@ public class StateOfCharge {
             }
         });
         worker.start();
+    }
+
+    public static void saveSOC(){
+        //TODO: salvar SOC atual em arquivo de configuracoes
+
     }
 }
