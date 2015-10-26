@@ -57,37 +57,41 @@ public class StateOfCharge {
                     soc_zero = 1;
                     // TODO: sugerir para o usuario utilizar a ferramenta para calcular o SOC atraves da tensao de circuito aberto, ou editar o arquivo de configuracao manualmente
                 }
+                if(soc==Double.parseDouble("NaN")){
+                    // tratando um possivel erro
+                    soc_zero = 1;
+                }
 
                 soc = soc_zero;
                 systemEnergy = NominalVoltage*Q*(soc_zero);
                 t_old = getTime();//tempo inicial
                 while ((!Thread.currentThread().isInterrupted() && !stopSOCWorker) /*&& MainActivity.connected*/) {
                     t_new = getTime();
-                    Log.d("SOC", "t_new: " + String.format("%3.1f", t_new));
+                    Log.d("SOC", "t_new: " + String.format("%f", t_new));
                     i_new = Math.pow(getCurrent(), k);
-                    Log.d("SOC", "i_new: " + String.format("%3.1f", i_new));
+                    Log.d("SOC", "i_new: " + String.format("%f", i_new));
 
 
                     // integral por soma trapezoidal
                     Qi += 0.5 * (i_new + i_old) * (t_new - t_old);
-                    Log.d("SOC", "Qi: " + String.format("%3.1f", Qi));
+                    Log.d("SOC", "Qi: " + String.format("%f", Qi));
 
                     t_total += (t_new - t_old);
-                    Log.d("SOC", "t_total: " + String.format("%3.1f", t_total));
+                    Log.d("SOC", "t_total: " + String.format("%f", t_total));
 
 
                     soc = soc_zero - Qi / Q;
-                    Log.d("SOC", "SOC: " + String.format("%3.1f",soc*100) +  " %");
+                    Log.d("SOC", "SOC: " + String.format("%f",soc*100) +  " %");
 
                     // computa a energia e sua derivada
                     //systemEnergy = NominalVoltage*i_new*(t_new - t_old);
                     double systemEnergy_old = systemEnergy;
                     systemEnergy = NominalVoltage*Q*(soc);
                     dsystemEnergy = (systemEnergy - systemEnergy_old)/(t_new - t_old);
-                    Log.d("SOC", "dsystemEnergy: " + String.format("%3.2f", dsystemEnergy) + " w");
+                    Log.d("SOC", "dsystemEnergy: " + String.format("%f", dsystemEnergy) + " w");
 
                     t_remain =  2*Q*NominalVoltage*(soc_min - soc)/dsystemEnergy;
-                    Log.d("SOC", "Autonomia: " + String.format("%3.2f", t_remain) + " h");
+                    Log.d("SOC", "Autonomia: " + String.format("%f", t_remain) + " h");
 
                     // recicla
                     t_old = t_new;

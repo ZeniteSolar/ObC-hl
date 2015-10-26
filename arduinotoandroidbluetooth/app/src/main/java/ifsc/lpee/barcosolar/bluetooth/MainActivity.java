@@ -73,6 +73,8 @@ public class MainActivity extends Activity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+
         //TODO: salvar SOC atual.
         Configurations.storeSOCConfigs();
 
@@ -122,7 +124,7 @@ public boolean onCreateOptionsMenu(Menu menu) {
 					.show();
 			return true;
 		}
-		return false;//Se retornar falso o app da crash
+		return false;//TODO: Se retornar falso o app da crash, tratar isso.
 	}
 
 	public void TituloLoggerOnOff(View view) {//controla o toque na chave do Logger
@@ -154,11 +156,12 @@ public boolean onCreateOptionsMenu(Menu menu) {
 		ChangeTituloView(false);
 		log = true;
 		Logger.logger();
+        //TODO: se aperta voltar/return na tela para inserir o titulo o app da crash
 	}
 
 
 	private void updateSpeed(Location location){
-//		//TODO
+//		//TODO ???
 		if (MainActivity.mTitle.equals(getString(R.string.title_section1))) {
 			TextView tvVelocity = (TextView) findViewById(R.id.tvVelocity);
 			String strCurrentSpeed = "_";
