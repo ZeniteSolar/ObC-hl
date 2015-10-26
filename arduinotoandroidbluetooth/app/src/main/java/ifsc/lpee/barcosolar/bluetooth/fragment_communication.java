@@ -81,16 +81,21 @@ public class fragment_communication extends Fragment {
 	//	Handler mHandler;
 	//ref: http://stackoverflow.com/questions/12716850/android-update-textview-in-thread-and-runnable
 	private void updateTextView(final TextView textView, final String data) {
-    //TODO: essa thread estava dando crash quando tentamos fechar o app. Adicionei a condicional para tentar resolver.
+    //TODO: essa thread ainda esta dando crash quando tentamos fechar o app. Adicionei a condicional para tentar resolver mas nao resolveu.
 		Thread th = new Thread(new Runnable() {
 			public void run() {
 				getActivity().runOnUiThread(new Runnable() {
                     //TODO: essa thread ta dando crash ao encerrar o app. Provavelmente temos que parar ela antes de encerrar o app.
 					@Override
 					public void run() {
-                        if (!Thread.currentThread().isInterrupted()){
+                        if (!Thread.currentThread().isInterrupted() && !stopWorker){
                             try{
                                 textView.setText(data);
+
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            try{
                                 mainScreen.setBackgroundColor(
                                         (Temperature1 > 70 ||Temperature2 > 70 ||
                                                 StateOfCharge.soc <= StateOfCharge.soc_min) ?

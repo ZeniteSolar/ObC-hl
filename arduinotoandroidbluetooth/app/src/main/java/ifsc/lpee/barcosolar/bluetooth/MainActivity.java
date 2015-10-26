@@ -75,6 +75,7 @@ public class MainActivity extends Activity implements
 		super.onDestroy();
 
 
+
         //TODO: salvar SOC atual.
         Configurations.storeSOCConfigs();
 

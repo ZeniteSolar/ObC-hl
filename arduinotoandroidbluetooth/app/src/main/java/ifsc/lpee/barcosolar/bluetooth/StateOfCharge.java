@@ -3,6 +3,7 @@ package ifsc.lpee.barcosolar.bluetooth;
 import android.util.Log;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by joaoantoniocardoso on 10/4/15.
@@ -16,22 +17,22 @@ public class StateOfCharge {
             t_old = 0,
             t_total = 0,
             Qi = 0,
-            Q , // capacidade total em Ah
+            Q = 1, // capacidade total em Ah
             soc_zero = 1,
             soc_min = 0.5,
             soc = 1,//100%
-            k ,
+            k = 1,
             systemEnergy = 0,
             dsystemEnergy = 0,
             t_remain = 0,
     //dados de descargas conhecidas ,20h -> 38Ah e 1.1h -> 27.5Ah
-            R1 = 20,
+    R1 = 20,
             C1 = 38,
             R2 = 1.1,
             C2 = 27.5;
 
-    public static float NominalVoltage = 24.0f;
-    public static boolean 	stopSOCWorker = false;
+    public static float NominalVoltage = 12f;
+    public static boolean stopSOCWorker = false;
 
     //calcula a constante de Peukert
     public static double peukertConstant(double C1, double R1, double C2, double R2) {
@@ -50,27 +51,30 @@ public class StateOfCharge {
 
                 //TODO: criar botão, menu ou tela para calcular SOC a partir da tensao de circuito aberto, criar botao para atualizar o soc atual com o retorno deste calculo
 
-                //TODO: carregar SOC de arquivo salvo anteriormente.
+                //DONE:25/10/2015: carregar SOC de arquivo salvo anteriormente.
                 //soc_zero = 1;//-41.2751*Math.pow(fragment_communication.Voltage1,2)+1113*fragment_communication.Voltage1-7400.7;
-                if(!Configurations.restoreSOCConfigs()){
+                if (!Configurations.restoreSOCConfigs()) {
                     Log.e("SOC", "Error: can't load configs file, maybe it isn't created yet. It is created when this app is destroyed.");
                     soc_zero = 1;
-                    // TODO: sugerir para o usuario utilizar a ferramenta para calcular o SOC atraves da tensao de circuito aberto, ou editar o arquivo de configuracao manualmente
+                    //TODO: sugerir para o usuario utilizar a ferramenta para calcular o SOC atraves da tensao de circuito aberto, ou editar o arquivo de configuracao manualmente
                 }
-                if(soc==Double.parseDouble("NaN")){
-                    // tratando um possivel erro
+                if (soc == Double.parseDouble("NaN")) {
+                    // tentando tratar um possivel erro, mas a comparacao nao funcionou :'(
                     soc_zero = 1;
                 }
 
                 soc = soc_zero;
-                systemEnergy = NominalVoltage*Q*(soc_zero);
-                t_old = getTime();//tempo inicial
-                while ((!Thread.currentThread().isInterrupted() && !stopSOCWorker) /*&& MainActivity.connected*/) {
-                    t_new = getTime();
-                    Log.d("SOC", "t_new: " + String.format("%f", t_new));
-                    i_new = Math.pow(getCurrent(), k);
-                    Log.d("SOC", "i_new: " + String.format("%f", i_new));
 
+                systemEnergy = NominalVoltage * Q * (soc_zero);
+                double systemEnergy_old;
+
+                t_old = getTime();//tempo inicial
+                while (!Thread.currentThread().isInterrupted() && !stopSOCWorker && MainActivity.connected) {
+
+                    t_new = getTime();
+                    Log.d("SOC", "t_new: " + String.format("%f", t_new) + "\t t_old: " + String.format("%f", t_old));
+                    i_new = Math.pow(getCurrent(), k);
+                    Log.d("SOC", "i_new: " + String.format("%f", i_new) + "\t i_old: " + String.format("%f", i_old));
 
                     // integral por soma trapezoidal
                     Qi += 0.5 * (i_new + i_old) * (t_new - t_old);
@@ -79,18 +83,17 @@ public class StateOfCharge {
                     t_total += (t_new - t_old);
                     Log.d("SOC", "t_total: " + String.format("%f", t_total));
 
-
-                    soc = soc_zero - Qi / Q;
-                    Log.d("SOC", "SOC: " + String.format("%f",soc*100) +  " %");
+                    soc = soc_zero - (Qi / Q);
+                    Log.d("SOC", "SOC: " + String.format("%f", soc * 100) + " %");
 
                     // computa a energia e sua derivada
+                    systemEnergy_old = systemEnergy;
                     //systemEnergy = NominalVoltage*i_new*(t_new - t_old);
-                    double systemEnergy_old = systemEnergy;
-                    systemEnergy = NominalVoltage*Q*(soc);
-                    dsystemEnergy = (systemEnergy - systemEnergy_old)/(t_new - t_old);
+                    systemEnergy = (NominalVoltage) * Q * (soc);
+                    dsystemEnergy = (systemEnergy - systemEnergy_old) / (t_new - t_old);
                     Log.d("SOC", "dsystemEnergy: " + String.format("%f", dsystemEnergy) + " w");
 
-                    t_remain =  2*Q*NominalVoltage*(soc_min - soc)/dsystemEnergy;
+                    t_remain = Q * NominalVoltage * (soc_min - soc) / dsystemEnergy;
                     Log.d("SOC", "Autonomia: " + String.format("%f", t_remain) + " h");
 
                     // recicla
@@ -101,37 +104,23 @@ public class StateOfCharge {
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                        stopSOCWorker = true;
+//                        stopSOCWorker = true;
                         break;
                     }
                 }
 
             }
 
-            // função com os dados do teste do acionamento
+            // retorna o tempo atual em horas
             private double getTime() {
-                Calendar rightNow = Calendar.getInstance();
-
-                int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-                Log.d("SOC", "hour: " + String.format("%1d",hour));
-                int min = rightNow.get(Calendar.MINUTE);
-                Log.d("SOC", "min: " + String.format("%1d",min));
-                int sec = rightNow.get(Calendar.SECOND);
-                Log.d("SOC", "sec: " + String.format("%1d",sec));
-//todo: para teste
-                return (hour + min/60. + sec /(60*60.));//retorno em horas
+                return (double) (System.nanoTime()/1000000000.)/(60.*60.);
             }
 
-            // função com os dados do teste do acionamento
+            // retorna a diferenca entre as correntes
             private double getCurrent() {
-                return fragment_communication.Current2 - fragment_communication.Current1;//A diferença entre as correntes
+                return fragment_communication.Current2 - fragment_communication.Current1;
             }
         });
         worker.start();
-    }
-
-    public static void saveSOC(){
-        //TODO: salvar SOC atual em arquivo de configuracoes
-
     }
 }
