@@ -45,7 +45,7 @@
 	<string name="Time">[min]</string>
 	<string name="Watts">[W]</string>
 	<string name="logger">Insira o título.(MÁX 30)</string>
-	<string name="loggerbutton">Ok</string>
+	<string name="loggerbutton">OK</string>
 	<string name="DefaultTitle">Teste no LIC</string>
 	<string name="SwitchName">Logger</string>
 	<string name="OkButton">OK</string>

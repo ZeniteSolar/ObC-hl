@@ -23,7 +23,7 @@
     <string name="Current:Bat:IN">Pan. Cur.:</string>
     <string name="Current:Bat:OUT">Bat. Cur.:</string>
     <string name="DefaultTitle">Teste no LIC</string>
-    <string name="DutyCicle">D.C.   </string>
+    <string name="DutyCicle">D.C.</string>
     <string name="HidePairedList">Hide devices available to connect</string>
     <string name="List">List Devices</string>
     <string name="Off">Off</string>
@@ -49,7 +49,7 @@
     <string name="action_settings">Comunicação</string>
     <string name="app_name">Zênite Solar</string>
     <string name="logger">Insira o título.(MÁX 30)</string>
-    <string name="loggerbutton">Ok</string>
+    <string name="loggerbutton">OK</string>
     <string name="navigation_drawer_close">Fechar menu</string>
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="percent">[%]</string>
