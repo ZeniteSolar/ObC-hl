@@ -106,9 +106,9 @@
                 android:id="@+id/TextView20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tvAutonomy"
-                android:layout_alignBottom="@+id/tvAutonomy"
-                android:layout_toRightOf="@+id/tvAutonomy"
+                android:layout_alignBaseline="@+id/tvAutonomyHr"
+                android:layout_alignBottom="@+id/tvAutonomyHr"
+                android:layout_toRightOf="@+id/tvAutonomyHr"
                 android:text="@string/Time"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:typeface="monospace"
@@ -126,7 +126,7 @@
                 android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/tvAutonomy"
+                android:id="@+id/tvAutonomyHr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -474,4 +474,4 @@
 
     </RelativeLayout>
 
-</RelativeLayout><!-- From: file:/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/layout/fragment_communication.xml -->
+</RelativeLayout><!-- From: file:/home/joaoantoniocardoso/AndroidstudioProjects/ObC-hl/arduinotoandroidbluetooth/app/src/main/res/layout/fragment_communication.xml -->

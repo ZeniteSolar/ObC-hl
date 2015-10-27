@@ -32,7 +32,7 @@ public class StateOfCharge {
             R2 = 1.1,
             C2 = 27.5;
 
-    public static float NominalVoltage = 12f;
+    public static float NominalVoltage = 24.0f;
     public static boolean stopSOCWorker = false;
 
     //calcula a constante de Peukert
@@ -56,12 +56,12 @@ public class StateOfCharge {
                 //soc_zero = 1;//-41.2751*Math.pow(fragment_communication.Voltage1,2)+1113*fragment_communication.Voltage1-7400.7;
                 if (!Configurations.restoreSOCConfigs()) {
                     Log.e("SOC", "Error: can't load configs file, maybe it isn't created yet. It is created when this app is destroyed.");
-                    soc_zero = 1;
+                    soc_zero = 1.0;
                     //TODO: sugerir para o usuario utilizar a ferramenta para calcular o SOC atraves da tensao de circuito aberto, ou editar o arquivo de configuracao manualmente
                 }
                 if (Double.isNaN(soc) ) {
                     // tentando tratar um possivel erro, mas a comparacao nao funcionou :'(
-                    soc_zero = 1;
+                    soc_zero = 1.0;
                 }
 
                 soc = soc_zero;
@@ -69,7 +69,7 @@ public class StateOfCharge {
                 systemEnergy = NominalVoltage * Q * (soc_zero);
                 double systemEnergy_old;
 
-                t_old = getTime();//tempo inicial
+                t_old = (double) getTime();//tempo inicial
                 while (!Thread.currentThread().isInterrupted() && !stopSOCWorker && MainActivity.connected) {
 
                     t_new = getTime();
@@ -78,20 +78,21 @@ public class StateOfCharge {
                     Log.d("SOC", "i_new: " + String.format("%f", i_new) + "\t i_old: " + String.format("%f", i_old));
 
                     // integral por soma trapezoidal
-                    Qi += 0.5 * (i_new + i_old) * (t_new - t_old);
-                    Log.d("SOC", "Qi: " + String.format("%f", Qi));
+                    Qi += (i_new + i_old) * (t_new - t_old) / 2;
+                    Log.d("SOC", "Qi: " + String.format("%f", Qi) + "/" + String.format("%f", Q) );
 
-                    t_total += (t_new - t_old);
-                    Log.d("SOC", "t_total: " + String.format("%f", t_total));
+//                    t_total += t_new - t_old;
+//                    Log.d("SOC", "t_total: " + String.format("%f", t_total));
 
-                    soc = soc_zero - (Qi / Q);
-                    Log.d("SOC", "SOC: " + String.format("%f", soc * 100) + " %");
+                    soc = soc_zero - Qi / Q;
+                    Log.d("SOC", "SOC: " + String.format("%f", soc * 100) + " %" +"\t soc_zero: " + String.format("%f", soc_zero * 100) + " %");
 
                     // computa a energia e sua derivada
-                    systemEnergy_old = systemEnergy;
                     //systemEnergy = NominalVoltage*i_new*(t_new - t_old);
-                    systemEnergy = (NominalVoltage) * Q * (soc);
+                    systemEnergy_old = systemEnergy;
+                    systemEnergy = NominalVoltage * Q * soc;
                     dsystemEnergy = (systemEnergy - systemEnergy_old) / (t_new - t_old);
+                    Log.d("SOC", "systemEnergy: " + String.format("%f", systemEnergy) + " w" + "\t systemEnergy_old: " + String.format("%f", systemEnergy) + " w");
                     Log.d("SOC", "dsystemEnergy: " + String.format("%f", dsystemEnergy) + " w");
 
                     t_remain = Q * NominalVoltage * (soc_min - soc) / dsystemEnergy;

@@ -65,7 +65,7 @@ public final class R {
         public static final int title_section1=0x7f080030;
         public static final int title_section2=0x7f080031;
         public static final int title_section3=0x7f080032;
-        public static final int tvAutonomy=0x7f080011;
+        public static final int tvAutonomyHr=0x7f080011;
         public static final int tvBluetooth=0x7f080003;
         public static final int tvDutycycle=0x7f080019;
         public static final int tvPot=0x7f080029;

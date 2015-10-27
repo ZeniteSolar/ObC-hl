@@ -65,7 +65,7 @@ public class MainActivity extends Activity implements
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,100, 0, this);
 
-		StateOfCharge.SOC();
+//		StateOfCharge.SOC();
 
 
 	}
@@ -73,10 +73,7 @@ public class MainActivity extends Activity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-
-
-
-        //TODO: salvar SOC atual.
+        //DONE 25/10/2015: salvar SOC atual.
         Configurations.storeSOCConfigs();
 
         //TODO: verificar se o gps ('local') esta ligado, caso contrario as linhas abaixo bugam o software
@@ -157,7 +154,6 @@ public boolean onCreateOptionsMenu(Menu menu) {
 		ChangeTituloView(false);
 		log = true;
 		Logger.logger();
-        //TODO: se aperta voltar/return na tela para inserir o titulo o app da crash
 	}
 
 

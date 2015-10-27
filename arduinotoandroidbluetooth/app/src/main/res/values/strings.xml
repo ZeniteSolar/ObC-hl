@@ -42,7 +42,7 @@
 	<string name="Volts">[V]</string>
 	<string name="Amps">[A]</string>
 	<string name="Vel">[km/h]</string>
-	<string name="Time">[min]</string>
+	<string name="Time">[h:min]</string>
 	<string name="Watts">[W]</string>
 	<string name="logger">Insira o título.(MÁX 30)</string>
 	<string name="loggerbutton">OK</string>

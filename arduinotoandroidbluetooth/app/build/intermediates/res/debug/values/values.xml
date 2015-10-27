@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/home/joaoantoniocardoso/AndroidstudioProjects/ObC-hl/arduinotoandroidbluetooth/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="navigation_drawer_width">240dp</dimen>
     <dimen name="txtdimen1">55sp</dimen>
     <dimen name="txtdimen2">90sp</dimen>
-    <!-- From: file:/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/home/joaoantoniocardoso/AndroidstudioProjects/ObC-hl/arduinotoandroidbluetooth/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="Amps">[A]</string>
     <string name="Autonomy">Autonomia:</string>
@@ -37,7 +37,7 @@
     <string name="SystemStatus">Status do sistema:</string>
     <string name="Temp.Eletronica">T. Elet.:</string>
     <string name="Temp.Motor">T. Motor:</string>
-    <string name="Time">[min]</string>
+    <string name="Time">[h:min]</string>
     <string name="Unknown">_</string>
     <string name="Vel">[km/h]</string>
     <string name="Velocity">Velocidade:</string>
@@ -56,7 +56,7 @@
     <string name="title_section1">Comunicação</string>
     <string name="title_section2">Configuração Bluetooth</string>
     <string name="title_section3">Modo de Operação</string>
-    <!-- From: file:/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/home/joaoantoniocardoso/AndroidstudioProjects/ObC-hl/arduinotoandroidbluetooth/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light.NoTitleBar">
         <!--

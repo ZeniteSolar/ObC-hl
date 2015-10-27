@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/home/marcio/Android/Sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jar="/home/joaoantoniocardoso/Android/Sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="/home/marcio/Desktop/IFSC/Zenite/arquivos/Android/arduinotoandroidbluetooth/app/build/intermediates/pre-dexed/debug/support-v4-18.0.0-d4bf3d499339c96cfc90a4d28ec3d5088fef386f.jar" />
+        <dex dex="/home/joaoantoniocardoso/AndroidstudioProjects/ObC-hl/arduinotoandroidbluetooth/app/build/intermediates/pre-dexed/debug/support-v4-18.0.0-5d612156f04a34814bca16ccaf3b389f7f754987.jar" />
     </item>
 
 </items>
