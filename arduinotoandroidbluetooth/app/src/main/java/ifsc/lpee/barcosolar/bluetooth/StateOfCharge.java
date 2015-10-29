@@ -23,9 +23,11 @@ public class StateOfCharge {
             soc_min = 0.10, // descarrega até 10% de carga
             soc = 1,
             Qi = 0,
+            Qi_old = 0,
             Q_total = 1, // capacidade total corrigida em Ah
             remainingSystemEnergy = 0,
             dremainingSystemEnergy = 0,
+            remainingSystemEnergy_old = 0,
             t_left = 0;
     //dados de descargas conhecidas ,20h -> 38Ah e 1.1h -> 27.5Ah
     public static float
@@ -70,8 +72,6 @@ public class StateOfCharge {
 
                 soc = soc_zero;
 
-                double remainingSystemEnergy_old;
-
                 t_zero = getTime(); //tempo inicial
                 t_old = t_zero;
 
@@ -83,31 +83,32 @@ public class StateOfCharge {
                     Log.d("SOC", "i_new: " + String.format("%f", i_new) + "\t i_old: " + String.format("%f", i_old));
 
                     // integral por soma trapezoidal
-                    Qi += (i_new + i_old) * (t_new - t_old) / 2;
+                    Qi = limitToBounds(Qi + ((i_new + i_old) * (t_new - t_old) / 2), Qi, Double.MIN_VALUE, Double.MAX_VALUE);
                     Log.d("SOC", "Qi: " + String.format("%f", Qi) + "/" + String.format("%f", Q_total) );
 
                     t_total = t_new - t_zero;
                     Log.d("SOC", "t_total: " + String.format("%f", t_total));
 
-                    soc = soc_zero - Qi / Q_total;
+                    soc = limitToBounds(soc_zero - Qi / Q_total, soc, Double.MIN_VALUE, Double.MAX_VALUE);
+
                     Log.d("SOC", "SOC: " + String.format("%f", soc * 100) + " %" +"\t soc_zero: " + String.format("%f", soc_zero * 100) + " %");
 
                     // computa a energia e sua derivada
                     //systemEnergy = NominalVoltage*i_new*(t_new - t_old);
-                    remainingSystemEnergy_old = remainingSystemEnergy;
+                    remainingSystemEnergy_old = limitToBounds(remainingSystemEnergy,remainingSystemEnergy_old, Double.MIN_VALUE, Double.MAX_VALUE);
 
-                    remainingSystemEnergy = NominalVoltage*Q_total - NominalVoltage*Qi;
-                    dremainingSystemEnergy = (remainingSystemEnergy - remainingSystemEnergy_old) / (t_new - t_old);
+                    remainingSystemEnergy = limitToBounds(NominalVoltage*Q_total - NominalVoltage*Qi,remainingSystemEnergy, Double.MIN_VALUE, Double.MAX_VALUE);
+                    dremainingSystemEnergy = limitToBounds((remainingSystemEnergy - remainingSystemEnergy_old) / (t_new - t_old), dremainingSystemEnergy, Double.MIN_VALUE, Double.MAX_VALUE);
                     Log.d("SOC", "systemEnergy: " + String.format("%f", remainingSystemEnergy) + " w" + "\t systemEnergy_old: " + String.format("%f", remainingSystemEnergy_old) + " w");
                     Log.d("SOC", "dsystemEnergy: " + String.format("%f", dremainingSystemEnergy) + " w");
 
-                    t_left = (soc_min * Q_total * NominalVoltage - remainingSystemEnergy) / (3600 * dremainingSystemEnergy);
+                    t_left = limitToBounds( (soc_min * Q_total * NominalVoltage - remainingSystemEnergy) / (3600 * dremainingSystemEnergy), t_left, Double.MIN_VALUE, Double.MAX_VALUE);
 
                     Log.d("SOC", "Autonomia: " + String.format("%f", t_left) + " h");
 
                     // recicla
-                    t_old = t_new;
-                    i_old = i_new;
+                    t_old = limitToBounds(t_new, t_old, Double.MAX_VALUE, Double.MIN_VALUE);
+                    i_old = limitToBounds(i_new, i_old, Double.MAX_VALUE, Double.MIN_VALUE);
 
                     try {
                         Thread.sleep(1000);
@@ -127,8 +128,12 @@ public class StateOfCharge {
 
             // retorna a diferenca entre as correntes
             private double getCurrent() {
-//                return fragment_communication.Current2 - fragment_communication.Current1;
-                return 500f;
+                return fragment_communication.Current2 - fragment_communication.Current1;
+            }
+
+            private double limitToBounds(double data, double otherwise_data, double min, double max){
+//                if(Double.isInfinite(data) | Double.isNaN(data) | data<min | data<max) data = otherwise_data;
+                return data;
             }
         });
         worker.start();

@@ -74,7 +74,9 @@ public class MainActivity extends Activity implements
 	protected void onDestroy() {
 		super.onDestroy();
         //DONE 25/10/2015: salvar SOC atual.
-        Configurations.storeSOCConfigs();
+        if(MainActivity.connected){
+            Configurations.storeSOCConfigs();
+        }
 
         //TODO: verificar se o gps ('local') esta ligado, caso contrario as linhas abaixo bugam o software
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);

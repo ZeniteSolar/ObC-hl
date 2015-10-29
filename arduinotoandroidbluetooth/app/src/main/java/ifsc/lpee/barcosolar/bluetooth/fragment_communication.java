@@ -158,14 +158,14 @@ public class fragment_communication extends Fragment {
                                             Log.d("Comunication", "Receive : " +
                                                     "\tTemp1: " + temp + " = 0x" + Integer.toHexString(temp));
                                             Temperature1 = mapFloat(temp, 0, 1023, 0, 150);
-											updateTextView(tvTemperatureBattery, String.format("%3.1f",Temperature1));
+											updateTextView(tvTemperatureBattery, formatString("%3.0f",Temperature1));
 											break;
 										case (byte) 0xA1:
                                             temp = twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4));
                                             Log.d("Comunication", "Receive : " +
                                                     "\tTemp2: " + temp + " = 0x" + Integer.toHexString(temp));
 											Temperature2 = mapFloat(temp, 0, 1023, 0, 150);
-											updateTextView(tvTemperatureMotor, String.format("%3.1f", Temperature2));
+											updateTextView(tvTemperatureMotor, formatString("%3.0f", Temperature2));
 											break;
 										case (byte) 0xA2:
 											//correcao do valor obtido para a placa do João
@@ -174,21 +174,22 @@ public class fragment_communication extends Fragment {
                                             Log.d("Comunication", "Receive : " +
                                                     "\tVolt1: " + temp + " = 0x" + Integer.toHexString(temp));
 											Voltage1 = mapFloat(temp, 0, 1023, 0, 48);
-											updateTextView(tvVoltageBattery, String.format("%2.1f", Voltage1));
+											updateTextView(tvVoltageBattery, formatString("%2.1f", Voltage1));
 											break;
 										case (byte) 0xA3:
 											Current1 = mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 150);
 											break;
 										case (byte) 0xA4:
 											Current2 = mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 150);
-											updateTextView(tvPot,   String.format("%2.0f", Current1 * Voltage1 - Current2 * Voltage1));
-											updateTextView(tvSOC,   String.format("%1.0f", 100 * StateOfCharge.soc));
-                                            updateTextView(tvAutonomy,   String.format("%2.0f:%2.0f", StateOfCharge.t_remain, StateOfCharge.t_remain*60));
-											break;
+											updateTextView(tvPot,   formatString("%2.0f", Current1 * Voltage1 - Current2 * Voltage1));
+											updateTextView(tvSOC,   formatString("%1.0f", 100 * StateOfCharge.soc));
+                                            updateTextView(tvAutonomy,   formatString("%3.0f", 60*StateOfCharge.t_left));
+
+                                            break;
 										case (byte) 0xA5:
 											//DONE 26/10/2015: calcular e mostrar o DutyCycle do PWM. Maior que 4.1*1023/5 é 0% e 0 é 100%.
-                                            dutyCycle = mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)),0,1023,4,0);
-											updateTextView(tvDutyCycle,   String.format("%2.1f",dutyCycle));
+                                            dutyCycle = mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 819, 100, 0); // de 0 a 4 v na entrada
+                                            updateTextView(tvDutyCycle,   formatString("%2.1f", dutyCycle));
                                             Log.d("Comunication", "Receive : " +
                                                     "\t Temp1: " + Temperature1 +
                                                     "\t Temp2: " + Temperature2 +
@@ -237,12 +238,23 @@ public class fragment_communication extends Fragment {
 	}
 
     public static int twoBytesToUnsignedInt(byte[] packetBytes) {
-        Log.d("Receive ->>>>>>", Integer.toHexString((int)(0x000000FF & (int)packetBytes[0])) + " | " + Integer.toHexString((int)(0x000000FF & (int)packetBytes[1])) + " = " + Integer.toHexString((int)(((0x000000FF & (int)packetBytes[1]) << 8) | (0x000000FF & (int)packetBytes[0]))));
-        return ((0x000000FF & (int)packetBytes[1]) << 8) | (0x000000FF & (int)packetBytes[0]);
+        Log.d("Receive ->>>>>>", Integer.toHexString((0x000000FF & (int)packetBytes[1])) + " | " + Integer.toHexString((0x000000FF & (int)packetBytes[0])) + " = " + Integer.toHexString((((0x000000FF & (int)packetBytes[0]) << 8) | (0x000000FF & (int)packetBytes[1]))));
+        return ((0x000000FF & (int)packetBytes[0]) << 8) | (0x000000FF & (int)packetBytes[1]);
     }
 
     public static float mapFloat(int value, int in_min, int in_max, int out_min, int out_max){
+        if(value > in_max) value = in_max;
+        else if (value < in_min) value = in_min;
         return ((float)value - (float)in_min) * ((float)out_max - (float)out_min) / ((float)in_max - (float)in_min) + (float)out_min;
+    }
+    public static String formatString(String format, double data){
+        String s;
+        if(Double.isInfinite(data)){
+            return "\u221e"; //infinity symbol
+        }else if(Double.isNaN(data)){
+            return " ? ";
+        }
+        return String.format(format, data);
     }
 
 }

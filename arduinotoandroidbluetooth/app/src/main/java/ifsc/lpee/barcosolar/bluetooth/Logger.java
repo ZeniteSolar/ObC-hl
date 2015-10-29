@@ -48,6 +48,7 @@ public class Logger {
                                 "Velocidade"    + "," +
                                 "Latitude"      + "," +
                                 "Longitude"     + "," +
+                                "SOC"           + "," +
                                 "\n";
                 String fileName =
                         MainActivity.titulo          + " " +
@@ -92,6 +93,7 @@ public class Logger {
                             String.format(Locale.US, "%3.1f",fragment_communication.Speed)         + "," +
                             Double.toString(fragment_communication.Latitude)                       + "," +
                             Double.toString(fragment_communication.Longitude)                      + "," +
+                            Double.toString(StateOfCharge.soc)                                     + "," +
                             "\n";
 
                     if(!Files.thereIsFreeSpace(dir)){

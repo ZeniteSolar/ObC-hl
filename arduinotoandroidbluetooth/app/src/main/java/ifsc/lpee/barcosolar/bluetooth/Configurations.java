@@ -27,10 +27,10 @@ public class Configurations {
                 return false;
             } else {
                 Log.d("Configs", "Ok, configs file loaded");
-                StateOfCharge.C1 = Double.parseDouble(content[0]);
-                StateOfCharge.R1 = Double.parseDouble(content[1]);
-                StateOfCharge.C2 = Double.parseDouble(content[2]);
-                StateOfCharge.R2 = Double.parseDouble(content[3]);
+                StateOfCharge.C1 = Float.parseFloat(content[0]);
+                StateOfCharge.R1 = Float.parseFloat(content[1]);
+                StateOfCharge.C2 = Float.parseFloat(content[2]);
+                StateOfCharge.R2 = Float.parseFloat(content[3]);
                 StateOfCharge.NominalVoltage = Float.parseFloat(content[4]);
                 StateOfCharge.soc_zero = Double.parseDouble(content[5]); //note that now soc_zero = soc
                 StateOfCharge.soc_min = Double.parseDouble(content[6]);
