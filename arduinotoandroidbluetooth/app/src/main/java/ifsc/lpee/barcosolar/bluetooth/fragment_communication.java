@@ -168,23 +168,25 @@ public class fragment_communication extends Fragment {
 											updateTextView(tvTemperatureMotor, formatString("%3.0f", Temperature2));
 											break;
 										case (byte) 0xA2:
-											//correcao do valor obtido para a placa do João
-											//Voltage1 = (float) (1.0542105263*fourBytesToFloat(Arrays.copyOfRange(packetBytes, 2, 6)) + 0.1731578947);
-                                            temp = twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4));
-                                            Log.d("Comunication", "Receive : " +
-                                                    "\tVolt1: " + temp + " = 0x" + Integer.toHexString(temp));
-											Voltage1 = mapFloat(temp, 0, 1023, 0, 48);
-											updateTextView(tvVoltageBattery, formatString("%2.1f", Voltage1));
+//                                            B=-0.0600942028985525
+//                                            A=0.914695652173913
+//                                            Current2 = (0.0600942028985525f + mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 150))/0.914695652173913f;
+                                            Current2 = (0.295361938692203f + mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 150))/0.933446178777308f;
+//                                            Log.d("Comunication", "MappedData" + "A4: " + Current2);
 											break;
-										case (byte) 0xA3:
-											Current1 = mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 150);
-											break;
-										case (byte) 0xA4:
-											Current2 = mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 150);
-											updateTextView(tvPot,   formatString("%2.0f", Current1 * Voltage1 - Current2 * Voltage1));
-											updateTextView(tvSOC,   formatString("%1.0f", 100 * StateOfCharge.soc));
+										case (byte) 0xA3: //MotorCurrent
+//                                            Log.d("Comunication", "MappedData" + "A3: " + Current1);
+                                            Current1 = (0.295361938692203f + mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 150))/0.933446178777308f;
+                                            updateTextView(tvPot,   formatString("%2.0f", Current1 * Voltage1 - Current2 * Voltage1));
+                                            updateTextView(tvSOC,   formatString("%1.0f", 100 * StateOfCharge.soc));
                                             updateTextView(tvAutonomy,   formatString("%3.0f", 60*StateOfCharge.t_left));
-
+                                            break;
+										case (byte) 0xA4:
+//                                            B=-0.15280165926038
+//                                            A=1.1166336269336
+                                            Voltage1 = (-0.304610861f + mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 48))/0.89518123880825f;
+//                                            Log.d("Comunication", "MappedData" + "A2: " + Voltage1);
+                                            updateTextView(tvVoltageBattery, formatString("%2.1f", Voltage1));
                                             break;
 										case (byte) 0xA5:
 											//DONE 26/10/2015: calcular e mostrar o DutyCycle do PWM. Maior que 4.1*1023/5 é 0% e 0 é 100%.
@@ -238,7 +240,7 @@ public class fragment_communication extends Fragment {
 	}
 
     public static int twoBytesToUnsignedInt(byte[] packetBytes) {
-        Log.d("Receive ->>>>>>", Integer.toHexString((0x000000FF & (int)packetBytes[1])) + " | " + Integer.toHexString((0x000000FF & (int)packetBytes[0])) + " = " + Integer.toHexString((((0x000000FF & (int)packetBytes[0]) << 8) | (0x000000FF & (int)packetBytes[1]))));
+//        Log.d("Receive ->>>>>>", Integer.toHexString((0x000000FF & (int)packetBytes[1])) + " | " + Integer.toHexString((0x000000FF & (int)packetBytes[0])) + " = " + Integer.toHexString((((0x000000FF & (int)packetBytes[0]) << 8) | (0x000000FF & (int)packetBytes[1]))));
         return ((0x000000FF & (int)packetBytes[0]) << 8) | (0x000000FF & (int)packetBytes[1]);
     }
 
@@ -247,8 +249,8 @@ public class fragment_communication extends Fragment {
         else if (value < in_min) value = in_min;
         return ((float)value - (float)in_min) * ((float)out_max - (float)out_min) / ((float)in_max - (float)in_min) + (float)out_min;
     }
+
     public static String formatString(String format, double data){
-        String s;
         if(Double.isInfinite(data)){
             return "\u221e"; //infinity symbol
         }else if(Double.isNaN(data)){
