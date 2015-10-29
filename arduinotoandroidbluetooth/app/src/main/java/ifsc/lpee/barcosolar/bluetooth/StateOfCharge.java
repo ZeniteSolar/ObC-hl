@@ -17,20 +17,22 @@ public class StateOfCharge {
             t_new = 0,
             t_old = 0,
             t_total = 0,
-            Qi = 0,
-            Q = 1, // capacidade total em Ah
-            soc_zero = 1,
-            soc_min = 0.5,
-            soc = 1,//100%
+            t_zero = 0,
             k = 1,
-            systemEnergy = 0,
-            dsystemEnergy = 0,
-            t_remain = 0,
+            soc_zero = 1, // inicialmente 100% de carga
+            soc_min = 0.10, // descarrega até 10% de carga
+            soc = 1,
+            Qi = 0,
+            Q_total = 1, // capacidade total corrigida em Ah
+            remainingSystemEnergy = 0,
+            dremainingSystemEnergy = 0,
+            t_left = 0;
     //dados de descargas conhecidas ,20h -> 38Ah e 1.1h -> 27.5Ah
-    R1 = 20,
-            C1 = 38,
-            R2 = 1.1,
-            C2 = 27.5;
+    public static float
+            R1 = 20f,
+            C1 = 38f,
+            R2 = 1.1f,
+            C2 = 27.5f;
 
     public static float NominalVoltage = 24.0f;
     public static boolean stopSOCWorker = false;
@@ -46,7 +48,8 @@ public class StateOfCharge {
         Thread worker = new Thread(new Runnable() {
             public void run() {
                 k = peukertConstant(C1, R1, C2, R2);
-                Q = R1 * Math.pow((C1 / R1), k);
+                Q_total = 3600 * R1 * Math.pow((C1 / R1), k); //multiplica por 3600 para ter em Amper-segundo = coulomb
+                Log.d("SOC", "k: " + String.format("%f", k) + "Q: " + String.format("%f", Q_total));
                 //carga = 17,958*tensao^4-943,55*tensao^3+18505*tensao^2+160528*tensao+519755
                 //carga = -41,275*tensao²+1113*tensao-7400,7
 
@@ -54,6 +57,7 @@ public class StateOfCharge {
 
                 //DONE:25/10/2015: carregar SOC de arquivo salvo anteriormente.
                 //soc_zero = 1;//-41.2751*Math.pow(fragment_communication.Voltage1,2)+1113*fragment_communication.Voltage1-7400.7;
+
                 if (!Configurations.restoreSOCConfigs()) {
                     Log.e("SOC", "Error: can't load configs file, maybe it isn't created yet. It is created when this app is destroyed.");
                     soc_zero = 1.0;
@@ -66,10 +70,11 @@ public class StateOfCharge {
 
                 soc = soc_zero;
 
-                systemEnergy = NominalVoltage * Q * (soc_zero);
-                double systemEnergy_old;
+                double remainingSystemEnergy_old;
 
-                t_old = (double) getTime();//tempo inicial
+                t_zero = getTime(); //tempo inicial
+                t_old = t_zero;
+
                 while (!Thread.currentThread().isInterrupted() && !stopSOCWorker && MainActivity.connected) {
 
                     t_new = getTime();
@@ -79,24 +84,26 @@ public class StateOfCharge {
 
                     // integral por soma trapezoidal
                     Qi += (i_new + i_old) * (t_new - t_old) / 2;
-                    Log.d("SOC", "Qi: " + String.format("%f", Qi) + "/" + String.format("%f", Q) );
+                    Log.d("SOC", "Qi: " + String.format("%f", Qi) + "/" + String.format("%f", Q_total) );
 
-//                    t_total += t_new - t_old;
-//                    Log.d("SOC", "t_total: " + String.format("%f", t_total));
+                    t_total = t_new - t_zero;
+                    Log.d("SOC", "t_total: " + String.format("%f", t_total));
 
-                    soc = soc_zero - Qi / Q;
+                    soc = soc_zero - Qi / Q_total;
                     Log.d("SOC", "SOC: " + String.format("%f", soc * 100) + " %" +"\t soc_zero: " + String.format("%f", soc_zero * 100) + " %");
 
                     // computa a energia e sua derivada
                     //systemEnergy = NominalVoltage*i_new*(t_new - t_old);
-                    systemEnergy_old = systemEnergy;
-                    systemEnergy = NominalVoltage * Q * soc;
-                    dsystemEnergy = (systemEnergy - systemEnergy_old) / (t_new - t_old);
-                    Log.d("SOC", "systemEnergy: " + String.format("%f", systemEnergy) + " w" + "\t systemEnergy_old: " + String.format("%f", systemEnergy) + " w");
-                    Log.d("SOC", "dsystemEnergy: " + String.format("%f", dsystemEnergy) + " w");
+                    remainingSystemEnergy_old = remainingSystemEnergy;
 
-                    t_remain = Q * NominalVoltage * (soc_min - soc) / dsystemEnergy;
-                    Log.d("SOC", "Autonomia: " + String.format("%f", t_remain) + " h");
+                    remainingSystemEnergy = NominalVoltage*Q_total - NominalVoltage*Qi;
+                    dremainingSystemEnergy = (remainingSystemEnergy - remainingSystemEnergy_old) / (t_new - t_old);
+                    Log.d("SOC", "systemEnergy: " + String.format("%f", remainingSystemEnergy) + " w" + "\t systemEnergy_old: " + String.format("%f", remainingSystemEnergy_old) + " w");
+                    Log.d("SOC", "dsystemEnergy: " + String.format("%f", dremainingSystemEnergy) + " w");
+
+                    t_left = (soc_min * Q_total * NominalVoltage - remainingSystemEnergy) / (3600 * dremainingSystemEnergy);
+
+                    Log.d("SOC", "Autonomia: " + String.format("%f", t_left) + " h");
 
                     // recicla
                     t_old = t_new;
@@ -115,12 +122,13 @@ public class StateOfCharge {
 
             // retorna o tempo atual em horas
             private double getTime() {
-                return (double) (System.nanoTime()/1000000000.)/(60.*60.);
+                return (System.nanoTime()/1000000000.); //retorna em segundos
             }
 
             // retorna a diferenca entre as correntes
             private double getCurrent() {
-                return fragment_communication.Current2 - fragment_communication.Current1;
+//                return fragment_communication.Current2 - fragment_communication.Current1;
+                return 500f;
             }
         });
         worker.start();
