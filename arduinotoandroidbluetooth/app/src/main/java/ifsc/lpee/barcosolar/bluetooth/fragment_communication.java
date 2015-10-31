@@ -172,11 +172,15 @@ public class fragment_communication extends Fragment {
 //                                            A=0.914695652173913
 //                                            Current2 = (0.0600942028985525f + mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 150))/0.914695652173913f;
                                             Current2 = (0.295361938692203f + mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 150))/0.933446178777308f;
+                                            if(Current2 < 8)//Pq o sensor não mede abaixo de 8 amperes
+                                                Current2 = 0;
 //                                            Log.d("Comunication", "MappedData" + "A4: " + Current2);
 											break;
 										case (byte) 0xA3: //MotorCurrent
 //                                            Log.d("Comunication", "MappedData" + "A3: " + Current1);
                                             Current1 = (0.295361938692203f + mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 150))/0.933446178777308f;
+                                            if(Current1 < 8)//Pq o sensor não mede abaixo de 8 amperes
+                                                Current1 = 0;
                                             updateTextView(tvPot,   formatString("%2.0f", Current1 * Voltage1 - Current2 * Voltage1));
                                             updateTextView(tvSOC,   formatString("%1.0f", 100 * StateOfCharge.soc));
                                             updateTextView(tvAutonomy,   formatString("%3.0f", 60*StateOfCharge.t_left));
@@ -186,6 +190,8 @@ public class fragment_communication extends Fragment {
 //                                            A=1.1166336269336
                                             Voltage1 = (-0.304610861f + mapFloat(twoBytesToUnsignedInt(Arrays.copyOfRange(packetBytes, 2, 4)), 0, 1023, 0, 48))/0.89518123880825f;
 //                                            Log.d("Comunication", "MappedData" + "A2: " + Voltage1);
+                                            if(Voltage1 < 8)//Pq o sensor não mede abaixo de 8 Volts
+                                                Voltage1 = 0;
                                             updateTextView(tvVoltageBattery, formatString("%2.1f", Voltage1));
                                             break;
 										case (byte) 0xA5:
